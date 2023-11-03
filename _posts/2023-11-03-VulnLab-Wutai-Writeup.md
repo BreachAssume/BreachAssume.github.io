@@ -714,4 +714,5 @@ WORK-JUNON\Hazel.Simpson
 
 ![](/assets/post_img/2023-11-03%20204024_Wutai_initbeacon.png)
 
-## <span style="color:lightblue">Browser Credentials & Playing with Bitwarden</span>
+## <span style="color:lightblue">Reverse Engineering & Lateral Movement</span>
+
