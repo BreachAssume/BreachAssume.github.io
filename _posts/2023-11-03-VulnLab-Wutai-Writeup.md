@@ -7,7 +7,7 @@ tags: [Wutai]
 
 ![image](/assets/post_img/wutai.png)
 
-# <span style="color:lightblue">Lab Intro</span>
+## <span style="color:lightblue">Lab Intro</span>
 
 **The Wutai Group has tasked you with performing a penetration test on its networks. This includes the Wutai Parent Company & its subsidiary Junon. Wutai is concerned about its security posture since a leak of domain usernames was found online on pastebin.**
 
@@ -56,8 +56,8 @@ weak passwords
 
 ---
 
-# <span style="color:lightblue">Recon</span>
-## <span style="color:lightgreen">pastebin</span>
+## <span style="color:lightblue">Recon</span>
+### <span style="color:lightgreen">pastebin</span>
 
 ```
 https://pastebin.com/BBZkJGU1
@@ -93,7 +93,7 @@ Damien.Howell
 ```
 ---
 
-## <span style="color:lightgreen">Recon</span>
+### <span style="color:lightgreen">Recon</span>
 
 ```bash
 nmap -sC -sV -T4 -Pn 172.16.20.3-254 -n -vv -A --min-parallelism=50 --max-parallelism=150 --min-rate 5000 > nmap_tcp_scan.conf
@@ -167,7 +167,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 ---
 
-### <span style="color:lightgreen">172.16.20.50 - TCP 8080</span>
+#### <span style="color:lightgreen">172.16.20.50 - TCP 8080</span>
 
 ```
 http-proxy syn-ack Squid http proxy 5.2
@@ -183,7 +183,7 @@ http 172.16.20.50 8080
 
 ---
 
-### <span style="color:lightgreen">172.16.20.100 - TCP 443</span>
+#### <span style="color:lightgreen">172.16.20.100 - TCP 443</span>
 
 ![](/assets/post_img/Kasm_Workspaces.png)
 
@@ -197,7 +197,7 @@ Kasm Workspaces 是一个虚拟桌面和远程办公解决方案，用于提供�
 
 ---
 
-### <span style="color:lightgreen">通过Squid http proxy 探测内网可达网段</span>
+#### <span style="color:lightgreen">通过Squid http proxy 探测内网可达网段</span>
 
 ```bash
 /etc/proxychains4.conf
@@ -293,8 +293,8 @@ proxychains4 -q /usr/share/doc/python3-impacket/examples/GetNPUsers.py work.juno
 
 ---
 
-# <span style="color:lightblue">Foothold</span>
-## <span style="color:lightgreen">Kasm Workspaces</span>
+## <span style="color:lightblue">Foothold</span>
+### <span style="color:lightgreen">Kasm Workspaces</span>
 
 ```
 Terry.Lowe@work.junon.vl
@@ -313,7 +313,7 @@ S021M010
 
 ---
 
-# <span style="color:lightblue">Domain Enumeration from Windows</span>
+### <span style="color:lightblue">Domain Enumeration from Windows</span>
 
 ```powershell
 C:\Users\Hazel.Simpson>whoami
@@ -537,9 +537,9 @@ Credentials           :
 UseDefaultCredentials : False
 BypassArrayList       : {^(?:.*://)?htmd\.com(?::[0-9]{1,5})?$, ^(?:.*://)?microsoft\.com\.(?::[0-9]{1,5})?$}
 ```
-# <span style="color:lightblue">Domain Enumeration from Linux</span>
+### <span style="color:lightblue">Domain Enumeration from Linux</span>
 
-## <span style="color:lightgreen">bloodhound-python</span>
+### <span style="color:lightgreen">bloodhound-python</span>
 
 ```bash
  proxychains4 -q bloodhound-python -c all --disable-pooling -w 1 -u "Terry.Lowe" -p 'Summer2023' -d work.junon.vl -dc dc.work.junon.vl -ns 172.16.21.200 --dns-tcp --zip
@@ -566,7 +566,7 @@ INFO: Done in 01M 47S
 INFO: Compressing output into 20231103072820_bloodhound.zip
 ```
 
-## <span style="color:lightgreen">other</span>
+### <span style="color:lightgreen">other</span>
 
 ```bash
 proxychains4 -q ./nxc smb 172.16.21.3-254 -u "Terry.Lowe" -p 'Summer2023' --shares
@@ -594,11 +594,11 @@ proxychains4 -q crackmapexec ssh 172.16.21.3-254 -u "Terry.Lowe" -p 'Summer2023'
 
 ---
 
-# <span style="color:lightblue">Writing a Loader</span>
+## <span style="color:lightblue">Writing a Loader</span>
 
-# <span style="color:lightblue">Getting a Beacon</span>
-
-
+## <span style="color:lightblue">Getting a Beacon</span>
 
 
-## <span style="color:lightgreen"></span>
+
+
+### <span style="color:lightgreen"></span>
