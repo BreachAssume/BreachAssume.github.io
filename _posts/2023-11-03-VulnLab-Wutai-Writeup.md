@@ -36,3 +36,23 @@ Wutai的外部系统可以通过172.16.20.0/24网络上的VPN到达
 
 完成实验室将授予徽章
 ```
+
+---
+
+## <span style="color:lightgreen">Hints & Comments</span>
+
+- There is an outbound proxy server - if you can't connect back check if your payload is proxy-aware
+- Check for common mistakes that *people* make, weak passwords, password reuse across different accounts 
+- Assume there is user activity in the lab so backdooring things can make sense
+
+
+```
+提示:
+
+有一个出站代理服务器 - 如果您无法连接回来，请检查您的有效负载是否支持代理
+检查*人们*犯的常见错误、弱密码、跨不同帐户重复使用密码
+假设实验室中有用户活动，因此后门是有意义的
+```
+
+---
+
