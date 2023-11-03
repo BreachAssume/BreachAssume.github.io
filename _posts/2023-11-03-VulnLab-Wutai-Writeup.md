@@ -68,311 +68,139 @@ KE37vTed5S
 ```
 Katie.Shaw@work.junon.vl
 Marion.Green@work.junon.vl
-Abdul.Evans@work.junon.vl
-Hollie.Dodd@work.junon.vl
-Stanley.Lee@work.junon.vl
-Julia.Harvey@work.junon.vl
-Jacqueline.Harrison@work.junon.vl
-Rachael.Winter@work.junon.vl
-Martyn.Mason@work.junon.vl
-Elliott.Nixon@work.junon.vl
-Leonard.Chandler@work.junon.vl
-Gillian.Baldwin@work.junon.vl
-Justin.Thompson@work.junon.vl
-Sharon.Wilkinson@work.junon.vl
-Abdul.Bell@work.junon.vl
-Wendy.Vincent@work.junon.vl
-Terry.James@work.junon.vl
-Danny.Houghton@work.junon.vl
-Lorraine.Wright@work.junon.vl
-Kate.Morris@work.junon.vl
-Glenn.Wood@work.junon.vl
-Sandra.Hopkins@work.junon.vl
-Leslie.Brown@work.junon.vl
-Geraldine.Shaw@work.junon.vl
-Jay.Griffin@work.junon.vl
-Carolyn.Mitchell@work.junon.vl
-Fiona.Stewart@work.junon.vl
-Dylan.Mills@work.junon.vl
-Roger.Ball@work.junon.vl
-Connor.Hancock@work.junon.vl
-Stephen.Mitchell@work.junon.vl
-Francis.Ellis@work.junon.vl
-Katherine.Carter@work.junon.vl
-Anne.Bevan@work.junon.vl
-Sharon.Evans@work.junon.vl
-Katherine.Harvey@work.junon.vl
-Leigh.Adams@work.junon.vl
-Glen.Banks@work.junon.vl
-Sharon.Grant@work.junon.vl
-Pauline.Grant@work.junon.vl
-Carly.Adams@work.junon.vl
-Danielle.Howarth@work.junon.vl
-Sara.Lambert@work.junon.vl
-Gerald.Webster@work.junon.vl
-Joel.Gibbons@work.junon.vl
-Stacey.Francis@work.junon.vl
-Daniel.Campbell@work.junon.vl
-Teresa.Watson@work.junon.vl
-Garry.Smith@work.junon.vl
-Melissa.Hutchinson@work.junon.vl
-Melanie.Mueller@work.junon.vl
-Lindsey.Campbell@work.junon.vl
-Anthony.Marsh@work.junon.vl
-Kenneth.Harvey@work.junon.vl
-Rosemary.O'Connor@work.junon.vl
-Graeme.Williams@work.junon.vl
-John.Gibbons@work.junon.vl
-Sheila.Nicholls@work.junon.vl
-Jeremy.Williams@work.junon.vl
-Terry.Lowe@work.junon.vl
-Maureen.Jones@work.junon.vl
-Rachel.Shaw@work.junon.vl
-Dylan.Hill@work.junon.vl
-Deborah.Knowles@work.junon.vl
-Rebecca.Lee@work.junon.vl
-Francis.Jones@work.junon.vl
-Louise.Walsh@work.junon.vl
-Grace.Ingram@work.junon.vl
-Megan.Wall@work.junon.vl
-Denise.French@work.junon.vl
-Keith.Hall@work.junon.vl
-Rita.Townsend@work.junon.vl
-Kerry.Richardson@work.junon.vl
-Lesley.Price@work.junon.vl
-Debra.White@work.junon.vl
-Frederick.Jackson@work.junon.vl
-Jeffrey.Ball@work.junon.vl
-Rachel.Kennedy@work.junon.vl
-Sarah.Allen@work.junon.vl
-Colin.Akhtar@work.junon.vl
-Jade.Watson@work.junon.vl
-Adrian.Lane@work.junon.vl
-Rosie.Mahmood@work.junon.vl
-Mitchell.Roberts@work.junon.vl
-Leslie.Vincent@work.junon.vl
-Elliott.Taylor@work.junon.vl
-Hazel.Simpson@work.junon.vl
-Bruce.Davies@work.junon.vl
-Albert.Williams@work.junon.vl
-Kerry.Walker@work.junon.vl
-Hollie.Parker@work.junon.vl
-Kevin.Wood@work.junon.vl
-Gerald.Powell@work.junon.vl
-Dale.West@work.junon.vl
-Marion.Jones@work.junon.vl
-Carly.Roberts@work.junon.vl
-Carly.Roberts@work.junon.vl
-Melanie.Barnett@work.junon.vl
-Tom.Perkins@work.junon.vl
-Toby.Wright@work.junon.vl
-Michael.Moore@work.junon.vl
-Lynda.Graham@work.junon.vl
-Tony.Mitchell@work.junon.vl
-Chloe.Parkin@work.junon.vl
-Sam.Ward@work.junon.vl
-Kelly.Jones@work.junon.vl
-Patrick.Davison@work.junon.vl
-Brett.Roberts@work.junon.vl
-Amber.Barnes@work.junon.vl
-Rebecca.Bray@work.junon.vl
-Hugh.Lees@work.junon.vl
-Dylan.Stanley@work.junon.vl
-Max.Rees@work.junon.vl
-Elaine.Smith@work.junon.vl
-Gordon.Bishop@work.junon.vl
-Tina.Clayton@work.junon.vl
-Brenda.Jones@work.junon.vl
-Abbie.O'Brien@work.junon.vl
-Tracey.Carpenter@work.junon.vl
-Sam.Collins@work.junon.vl
-Julie.Smith@work.junon.vl
-Shaun.Phillips@work.junon.vl
-Julie.Parker@work.junon.vl
-Barbara.Clarke@work.junon.vl
-Amber.Metcalfe@work.junon.vl
-Jenna.Wallace@work.junon.vl
-Deborah.Fuller@work.junon.vl
-Victoria.Moran@work.junon.vl
-Scott.Marshall@work.junon.vl
-Gavin.Long@work.junon.vl
-Vanessa.Adams@work.junon.vl
-Lydia.Slater@work.junon.vl
-Francis.Chambers@work.junon.vl
-Georgina.Smart@work.junon.vl
-Sophie.Richards@work.junon.vl
-Mohamed.Forster@work.junon.vl
-Sharon.Ward@work.junon.vl
-Deborah.Martin@work.junon.vl
-John.Lewis@work.junon.vl
-Thomas.Yates@work.junon.vl
-Ricky.Cooke@work.junon.vl
-Rachel.Pollard@work.junon.vl
-Gail.Brown@work.junon.vl
-Emily.Brown@work.junon.vl
-Kayleigh.Coleman@work.junon.vl
-Lewis.Begum@work.junon.vl
-Ben.White@work.junon.vl
-Irene.Smith@work.junon.vl
-Bradley.Taylor@work.junon.vl
-Beverley.Moss@work.junon.vl
-Rosemary.Parsons@work.junon.vl
-Lauren.Hall@work.junon.vl
-Allan.Patel@work.junon.vl
-Danny.Ryan@work.junon.vl
-Max.Curtis@work.junon.vl
-Gregory.Hobbs@work.junon.vl
-Tom.Ross@work.junon.vl
-Shirley.Rogers@work.junon.vl
-Bruce.Williams@work.junon.vl
-Lorraine.Johnson@work.junon.vl
-Frank.Hicks@work.junon.vl
-Jade.Parsons@work.junon.vl
-Sam.Pearson@work.junon.vl
-Melanie.Bradley@work.junon.vl
-Janet.Taylor@work.junon.vl
-Darren.Mitchell@work.junon.vl
-Billy.Woods@work.junon.vl
-Katie.James@work.junon.vl
-Oliver.Sinclair@work.junon.vl
-Brett.Duncan@work.junon.vl
-Amanda.Atkinson@work.junon.vl
-Marion.Davies@work.junon.vl
-Kieran.Patel@work.junon.vl
-Duncan.Jones@work.junon.vl
-Lynne.Hudson@work.junon.vl
-Elliott.Storey@work.junon.vl
-Julie.Baker@work.junon.vl
-Nigel.Parker@work.junon.vl
-Adrian.Baldwin@work.junon.vl
-Sian.Smith@work.junon.vl
-Anne.Curtis@work.junon.vl
-Norman.Thompson@work.junon.vl
-Kathleen.Smith@work.junon.vl
-Victor.Edwards@work.junon.vl
-Paul.Stanley@work.junon.vl
-Brett.Austin@work.junon.vl
-Leslie.White@work.junon.vl
-Malcolm.Smith@work.junon.vl
-Kimberley.Cooke@work.junon.vl
-Gemma.Higgins@work.junon.vl
-Bryan.Ward@work.junon.vl
-Jeffrey.Jenkins@work.junon.vl
-Douglas.Webb@work.junon.vl
-Louise.Morgan@work.junon.vl
-Wayne.Jones@work.junon.vl
-Debra.Wright@work.junon.vl
-Brandon.Price@work.junon.vl
-Linda.Hayes@work.junon.vl
-Brian.Marsden@work.junon.vl
-Lynda.Pollard@work.junon.vl
-Jean.Quinn@work.junon.vl
-Charlene.Patel@work.junon.vl
-Iain.Richards@work.junon.vl
-Brian.Kent@work.junon.vl
-Sarah.Smith@work.junon.vl
-Anna.Scott@work.junon.vl
-Ricky.Marshall@work.junon.vl
-Catherine.Jones@work.junon.vl
-Bethan.Taylor@work.junon.vl
-Marc.Mann@work.junon.vl
-Ben.Brown@work.junon.vl
-Dominic.Payne@work.junon.vl
-Carol.Steele@work.junon.vl
-Harry.Roberts@work.junon.vl
-Dale.Gibson@work.junon.vl
-Hugh.Morley@work.junon.vl
-Pamela.Swift@work.junon.vl
-Lynne.Law@work.junon.vl
-Dale.Metcalfe@work.junon.vl
-Lesley.Middleton@work.junon.vl
-Ashley.Bibi@work.junon.vl
-Norman.Webb@work.junon.vl
-Nicola.Franklin@work.junon.vl
-Keith.Townsend@work.junon.vl
-Matthew.Clarke@work.junon.vl
-Charles.Pearson@work.junon.vl
-Jay.Norman@work.junon.vl
-Paula.Hughes@work.junon.vl
-Amber.Robinson@work.junon.vl
-Dale.Ali@work.junon.vl
-Martyn.Khan@work.junon.vl
-Sean.Walker@work.junon.vl
-Rosemary.Norton@work.junon.vl
-Martin.Williams@work.junon.vl
-Amelia.Page@work.junon.vl
-Marilyn.Webster@work.junon.vl
-Dean.Hobbs@work.junon.vl
-Trevor.Fisher@work.junon.vl
-Jodie.Burton@work.junon.vl
-Jacqueline.Roberts@work.junon.vl
-Patrick.King@work.junon.vl
-Deborah.Kelly@work.junon.vl
-Angela.Patterson@work.junon.vl
-Janice.Warren@work.junon.vl
-Keith.Fitzgerald@work.junon.vl
-Antony.Atkins@work.junon.vl
-Graeme.Jones@work.junon.vl
-Clare.Jones@work.junon.vl
-Victoria.Barnes@work.junon.vl
-Rosemary.Richardson@work.junon.vl
-Bradley.Payne@work.junon.vl
-Karen.Lynch@work.junon.vl
-Colin.Carr@work.junon.vl
-Amanda.Jones@work.junon.vl
-Frances.Clarke@work.junon.vl
-Carolyn.Lee@work.junon.vl
-Harriet.Turner@work.junon.vl
-Sandra.Roberts@work.junon.vl
-Stephen.Harrison@work.junon.vl
-Elaine.Williams@work.junon.vl
-Gerald.Smith@work.junon.vl
-Jeffrey.Hurst@work.junon.vl
-Emma.Ahmed@work.junon.vl
-Jane.Brooks@work.junon.vl
-Gemma.Morris@work.junon.vl
-Brandon.Evans@work.junon.vl
-Julian.Cooke@work.junon.vl
-Lynn.Barnes@work.junon.vl
-Samantha.Hanson@work.junon.vl
-Judith.Harrison@work.junon.vl
-Alan.Gill@work.junon.vl
-Karl.Kent@work.junon.vl
-Sean.Sinclair@work.junon.vl
-Jessica.Duffy@work.junon.vl
-Elliot.Moss@work.junon.vl
-Stewart.Davies@work.junon.vl
-Sylvia.Bell@work.junon.vl
-Alexander.Allan@work.junon.vl
-Nicola.Jackson@work.junon.vl
-Lynne.May@work.junon.vl
-Bernard.Baker@work.junon.vl
-Josh.Conway@work.junon.vl
-Conor.Bennett@work.junon.vl
-Hugh.Dixon@work.junon.vl
-Joanne.Ball@work.junon.vl
-Gillian.Sinclair@work.junon.vl
-Kieran.Smith@work.junon.vl
-Amy.Ball@work.junon.vl
-Laura.Patel@work.junon.vl
-Alexander.Brown@work.junon.vl
-Duncan.Green@work.junon.vl
-Adam.Henderson@work.junon.vl
-Elliot.Brown@work.junon.vl
-Clive.Ellis@work.junon.vl
-Chloe.Hill@work.junon.vl
-Paul.Smith@work.junon.vl
-Malcolm.Brown@work.junon.vl
-Clifford.Bradley@work.junon.vl
-Daniel.Yates@work.junon.vl
-Emily.Conway@work.junon.vl
-Damien.Howell@work.junon.vl
+...
 ```
 
+```bash
+cat users.txt|wc
+    300     301    8615
+
+
+cut -d '@' -f 1 users.txt > users1.txt
+cat users1.txt| sed 's/^ *//g' > usernames.txt
+rm -rf users.txt users1.txt
+tail usernames.txt
+Adam.Henderson
+Elliot.Brown
+Clive.Ellis
+Chloe.Hill
+Paul.Smith
+Malcolm.Brown
+Clifford.Bradley
+Daniel.Yates
+Emily.Conway
+Damien.Howell
+```
 ---
 
 ## <span style="color:lightgreen">Recon</span>
 
 ```bash
+nmap -sC -sV -T4 -Pn 172.16.20.3-254 -n -vv -A --min-parallelism=50 --max-parallelism=150 --min-rate 5000 > nmap_tcp_scan.conf
+
+map scan report for 172.16.20.50
+Host is up, received user-set (0.35s latency).
+Scanned at 2023-11-02 22:20:20 EDT for 382s
+Not shown: 998 filtered tcp ports (no-response)
+PORT     STATE SERVICE    REASON  VERSION
+22/tcp   open  ssh        syn-ack OpenSSH 8.9p1 Ubuntu 3ubuntu0.1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 c7:cd:1e:d9:39:fb:be:6d:c4:f4:ba:ab:58:92:17:e9 (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPXNwoJYzOzz0K2JR4AtPFa3RMCctqlV7bX/0r7S4+kLU1ZxrqpGq8rFsciMBgiXrFUPcMmbQDBgWl/c2dp2L5Q=
+|   256 5c:e8:e2:b1:00:f7:a2:b0:fa:15:47:98:6c:b9:4e:47 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICm80WNVgRnaq/3iDVR7hpPOZmTgfCKNehGpSzteXXDz
+8080/tcp open  http-proxy syn-ack Squid http proxy 5.2
+|_http-title: ERROR: The requested URL could not be retrieved
+|_http-server-header: squid/5.2
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+map scan report for 172.16.20.100
+Host is up, received user-set (0.35s latency).
+Scanned at 2023-11-02 22:26:42 EDT for 371s
+Not shown: 998 closed tcp ports (conn-refused)
+PORT    STATE SERVICE  REASON  VERSION
+22/tcp  open  ssh      syn-ack OpenSSH 8.9p1 Ubuntu 3ubuntu0.1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 9a:a5:ac:e6:b0:46:8d:d2:24:f7:33:c3:ec:9f:14:bb (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBL3QYz4aZ2JkAZGNJeNy94LKyMYM+ic7soYWQeQ6+VGX8ITvWVWtNBonRMl8xfm6wOuYBC+eU9y/nzfgHXWNX9U=
+|   256 d8:74:a8:05:04:19:6d:d8:74:f9:30:9d:ae:05:f4:df (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK/qP6CibCG23Cy7+ivlRe2oQXfum2HKGjZKI4uaZeaQ
+443/tcp open  ssl/http syn-ack nginx
+| http-methods: 
+|_  Supported Methods: GET HEAD OPTIONS
+| ssl-cert: Subject: commonName=wutai-vdi-gw/organizationName=None/stateOrProvinceName=VA/countryName=US/localityName=None/organizationalUnitName=DoFu/emailAddress=none@none.none
+| Issuer: commonName=wutai-vdi-gw/organizationName=None/stateOrProvinceName=VA/countryName=US/localityName=None/organizationalUnitName=DoFu/emailAddress=none@none.none
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2023-03-10T15:01:48
+| Not valid after:  2028-03-08T15:01:48
+| MD5:   cb41:82f3:03f9:4d5d:1a7e:1727:dc81:cac1
+| SHA-1: 21f2:33b0:0846:f2d1:5853:c5c4:4366:de94:3774:a7f1
+| -----BEGIN CERTIFICATE-----
+| MIID2zCCAsOgAwIBAgIUHtMlP/D54ypWpXaokL6gz4VFmWkwDQYJKoZIhvcNAQEL
+| BQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAlZBMQ0wCwYDVQQHDAROb25lMQ0w
+| CwYDVQQKDAROb25lMQ0wCwYDVQQLDAREb0Z1MRUwEwYDVQQDDAx3dXRhaS12ZGkt
+| Z3cxHTAbBgkqhkiG9w0BCQEWDm5vbmVAbm9uZS5ub25lMB4XDTIzMDMxMDE1MDE0
+| OFoXDTI4MDMwODE1MDE0OFowfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAlZBMQ0w
+| CwYDVQQHDAROb25lMQ0wCwYDVQQKDAROb25lMQ0wCwYDVQQLDAREb0Z1MRUwEwYD
+| VQQDDAx3dXRhaS12ZGktZ3cxHTAbBgkqhkiG9w0BCQEWDm5vbmVAbm9uZS5ub25l
+| MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5lSZMXTDldBRJE51sxB/
+| uR9cVmh4/aIj4IH44zcymAPvrNeBWs4nySaVx9jxul6OfyTcNOM3/AWi/d/DA+nx
+| mTn+H35mWV6QX81356gCbbJrVmP2tQC6q9dfn0l7D2E64PCH4MO/PA25TmEs6rGi
+| P57AvGgrltg4wUJGbJJP8EMoZTxagsV+J6txDqAcYmhk17OSlzQLSMN4cwRUTzYD
+| dRchmQR4PtcaZU+ybiwiELs+/xX0vlBrNwTCkUilqDa23NNmu3SzjEVHmNKa5WlJ
+| cWg/rRSFJ8TogZsCmCHhLX08gckqSpjF4SehbPRmNOSEo+hufSUtbNsXFldVkHBG
+| pwIDAQABo1MwUTAdBgNVHQ4EFgQUd1ly81+hDgaR+PLyIIAL5gzLfk4wHwYDVR0j
+| BBgwFoAUd1ly81+hDgaR+PLyIIAL5gzLfk4wDwYDVR0TAQH/BAUwAwEB/zANBgkq
+| hkiG9w0BAQsFAAOCAQEAAfoVKBVRgBjwWcCCKFXS23UXjNNRpDQG1mTRmuXJlvsD
+| guJwk+ThWcEidRmdu+VEtMrXq0QoB2yP5QG60wFH1aUZ/Yi02s4h8rjkC+Bt4hpV
+| pZj5MPbZFzCi0a7a4TtybluV3g2Kzs2xv8vNRZXYGqJyGcz1sCF6luXzUURASInl
+| unGi4GK3jw1tuI29hpE3ElGM0zh8mVdHVIiOTtTB1Dj0ePbtCrIesixW7hHicUup
+| mzNV27bmQVXc7MuaC65PF0qQ1ceCdQeWcFFfwfD3CCn5n2UXWQdQybOLzPhBMhlw
+| vGM8WlHgcmo6M/7QTXP9uHTKH4/CnZGsjQ6iHPLduA==
+|_-----END CERTIFICATE-----
+|_http-title: Site doesn't have a title (text/html).
+|_ssl-date: TLS randomness does not represent time
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+```
+
+---
+
+### <span style="color:lightgreen">172.16.20.50 - TCP 8080</span>
 
 ```
+http-proxy syn-ack Squid http proxy 5.2
+
+Squid HTTP Proxy 是一种非常流行的开源代理服务器软件，用于提供缓存和代理功能，主要用于加速和优化 Web 请求
+Squid 允许客户端计算机通过代理服务器访问 Internet
+```
+
+```bash
+/etc/proxychains4.conf
+http 172.16.20.50 8080
+```
+
+---
+
+### <span style="color:lightgreen">172.16.20.100 - TCP 443</span>
+
+![](/assets/post_img/Kasm_Workspaces.png)
+
+```
+https://kasmweb.com/
+
+Kasm Workspaces 是一个虚拟桌面和远程办公解决方案，用于提供安全的、可扩展的云端工作环境
+
+但是目前没有相关凭据
+```
+
+---
+
+### <span style="color:lightgreen">通过Squid http proxy 探测内网可达网段</span>
+
+```bash
+/etc/proxychains4.conf
+http 172.16.20.50 8080
+```
+
