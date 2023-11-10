@@ -1,11 +1,11 @@
 ---
-title : "OffSec证书持有人数"
+title : "OffSec credential"
 date: 2023-11-10 07:23:00 +0530
 categories: [Misc]
-tags: [OffSec证书持有人数]
+tags: [OffSec]
 ---
 
-## <span style="color:lightgreen">OffSec证书持有人数</span>
+## <span style="color:lightgreen">OffSec credential</span>
 
 ```bash
 curl -s -k -X $'POST' \
