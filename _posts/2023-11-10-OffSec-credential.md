@@ -12,7 +12,7 @@ curl -s -k -X $'POST' \
     -H $'Host: api.accredible.com' -H $'Content-Type: application/json' -H $'Content-Length: 62' \
     --data-binary $'{\"filter_queries\":[{\"field\":\"organization.id\",\"value\":81055}]}' \
     $'https://api.accredible.com/v1/recipient/groups/search' | jq -r "[.hits[]|{course_name: ._source.course_name,count: ._source.credentials_count}]"
----
+```
 
 ```bash
 [
