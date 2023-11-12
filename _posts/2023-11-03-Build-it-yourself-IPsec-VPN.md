@@ -1,5 +1,5 @@
 ---
-title : "OpenVPN Installer"
+title : "Build it yourself IPsec VPN"
 date: 2023-11-02 07:23:00 +0530
 categories: [Misc]
 tags: [OpenVPN]
@@ -8,7 +8,6 @@ tags: [OpenVPN]
 ## <span style="color:lightgreen">OpenVPN Installer</span>
 
 ```bash
-wget https://git.io/vpn -O openvpn-install.sh && bash openvpn-install.sh
+https://github.com/hwdsl2/setup-ipsec-vpn/blob/master/README-zh.md
 ```
-
 ---
