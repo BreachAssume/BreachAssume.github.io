@@ -1,8 +1,8 @@
 ---
-title : "bilibili Writeup"
+title : "Gustav Shen Vulnerable AD Writeup"
 date: 2023-11-02 07:23:00 +0530
 categories: [Red Team Lab]
-tags: [bilibili]
+tags: [bilibili,Vulnerable AD]
 ---
 
 ```bash
