@@ -9,7 +9,7 @@ order: 4
 
 # Whoami
 - I'm a Ethical Hacker and  Security enthusiast
-- I’m currently learning **alteredsecurity for ADCS、CRTE、OSEP**
+- I’m currently learning **alteredsecurity for ADCS、CRTE and Offsec for OSEP**
 - I'm currently publishing blogs about Active Directory Attacking and Defending
 
 # Achievements
