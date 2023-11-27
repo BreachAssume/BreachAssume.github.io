@@ -8,6 +8,6 @@ tags: [OpenVPN]
 ## <span style="color:lightgreen">OpenVPN Installer</span>
 
 ```bash
-https://github.com/hwdsl2/setup-ipsec-vpn/blob/master/README-zh.md
+https://github.com/hwdsl2/setup-ipsec-vpn/blob/master/aws/README-zh.md
 ```
 ---
