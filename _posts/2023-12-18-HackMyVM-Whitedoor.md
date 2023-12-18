@@ -6,5 +6,5 @@ tags: [Easy]
 ---
 
 ```
-待同步
+To be synchronized
 ```
