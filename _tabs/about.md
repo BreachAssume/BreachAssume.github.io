@@ -16,7 +16,7 @@ order: 4
 - I received my alteredsecurity Certified Red Team Professional (CRTP) certification in 2023
 - I received my  Zero-Point Security Certified Red Team Operator(CRTO) certification in 2023
 
-# Look at me
+# Look
 
 - Everything about computers is made by people.
 - What others can think of, I can definitely think of.
