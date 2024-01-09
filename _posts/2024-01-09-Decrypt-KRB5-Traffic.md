@@ -1,5 +1,5 @@
 ---
-title : "C2 - Sliver"
+title : "Decrypt KRB5 Traffic"
 date: 2024-01-09 07:23:00 +0530
 categories: [Active Directory]
 tags: [kerberos]
