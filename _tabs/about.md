@@ -13,5 +13,5 @@ order: 4
 - I'm currently publishing blogs about Active Directory Attacking and Defending 
 
 # Achievements
-- I received my Certified Red Team Operator(CRTO) certification in 2023
-- I received my Certified Red Team Professional(CRTP) certification in 2023
+- I received my **Certified Red Team Operator(CRTO)** certification in 2023
+- I received my **Certified Red Team Professional(CRTP)** certification in 2023
