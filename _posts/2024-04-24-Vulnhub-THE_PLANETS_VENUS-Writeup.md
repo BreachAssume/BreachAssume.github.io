@@ -1,8 +1,8 @@
 ---
-title : "vulnhub - THE PLANETS_VENUS"
+title : "Vulnhub - THE PLANETS_VENUS"
 author: fsociety
 date: 2024-04-24 11:17:00 +0800
-categories: [vulnhub, vulnhub-Linux, vulnhub-Medium]
+categories: [Vulnhub, Vulnhub-Linux, Vulnhub-Medium]
 tags: [pwn,]
 ---
 
