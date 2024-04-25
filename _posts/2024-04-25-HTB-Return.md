@@ -6,7 +6,15 @@ categories: [Hackthebox, Hackthebox-Windows, Hackthebox-Easy]
 tags: [LDAP Bind,evil-winrm,Abuse Server Operators]
 ---
 
-![](../assets/post_img/Snipaste_2024-04-25_17-05-57.png)
+![image](../assets/post_img/Snipaste_2024-04-25_17-05-57.png)
+
+**Return is an easy difficulty Windows machine featuring a network printer administration panel that stores LDAP credentials. These credentials can be captured by inputting a malicious LDAP server which allows obtaining foothold on the server through the WinRM service. User found to be part of a privilege group which further exploited to gain system access.**
+
+```
+Return 是一款简单难度的 Windows 机器，具有存储 LDAP 凭据的网络打印机管理面板
+这些凭据可以通过输入恶意 LDAP 服务器来捕获，该服务器允许通过 WinRM 服务在服务器上获得立足点
+发现用户属于特权组的一部分，该特权组被进一步利用以获得系统访问权限
+```
 
 ## <span style="color:lightblue">Recon</span>
 ### <span style="color:lightgreen">Nmap</span>

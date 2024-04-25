@@ -8,6 +8,14 @@ tags: [Anonymous FTP login allowed,PRTG Network Monitor,psexec.py]
 
 ![images](../assets/post_img/Snipaste_2024-04-25_12-38-08.png)
 
+**Netmon is an easy difficulty Windows box with simple enumeration and exploitation. PRTG is running, and an FTP server with anonymous access allows reading of PRTG Network Monitor configuration files. The version of PRTG is vulnerable to RCE which can be exploited to gain a SYSTEM shell.**
+
+```
+Netmon 是一个简单的 Windows 盒子，具有简单的枚举和利用
+PRTG 正在运行，并且具有匿名访问权限的 FTP 服务器允许读取 PRTG 网络监视器配置文件
+PRTG 版本容易受到 RCE 攻击，可被利用来获取 SYSTEM shell
+```
+
 ## <span style="color:lightblue">Recon</span>
 ### <span style="color:lightgreen">Nmap</span>
 
