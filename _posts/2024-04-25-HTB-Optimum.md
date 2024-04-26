@@ -6,6 +6,13 @@ categories: [Hackthebox, Hackthebox-Windows, Hackthebox-Easy]
 tags: [Rejetto HttpFileServer 2.3,tcpdump,MS16–032]
 ---
 
+**Optimum is a beginner-level machine which mainly focuses on enumeration of services with known exploits. Both exploits are easy to obtain and have associated Metasploit modules, making this machine fairly simple to complete.**
+
+```
+Optimum 是一个初级机器，主要关注具有已知漏洞的服务的枚举
+这两种漏洞利用都很容易获得，并且都有关联的 Metasploit 模块，使得这台机器相当容易完成
+```
+
 ![image](../assets/post_img/Snipaste_2024-04-25_18-06-42.png)
 
 ## <span style="color:lightblue">Recon</span>
