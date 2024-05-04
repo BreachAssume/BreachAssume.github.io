@@ -52,7 +52,7 @@ Zabbix是一种监控系统,允许管理员集中监视计算资源,网络性能
 ```
 
 ### <span style="color:lightgreen">1.2 集权设施的典型特征</span>
-### <span style="color:lightgreen">1.2.1 运维视角的集权设施的典型特征</span>
+### <span style="color:#F98B26">1.2.1 运维视角的集权设施的典型特征</span>
 
 ```
 集中性:
