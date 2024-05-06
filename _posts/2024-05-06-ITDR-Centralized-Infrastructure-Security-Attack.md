@@ -1,7 +1,7 @@
 ---
 title : "ITDR-Centralized-Infrastructure-Security"
 author: fsociety
-date: 2024-05-03 12:00:00 +0800
+date: 2024-05-06 12:00:00 +0800
 categories: [ITDR, Identity Threat Detection Response]
 tags: [ITDR,Identity Threat Detection Response]
 ---
